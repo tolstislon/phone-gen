@@ -6,7 +6,7 @@ from phone_gen.patterns import PATTERNS
 from phone_gen.generator import NumberGeneratorException
 
 
-@pytest.mark.parametrize('count', range(10))
+@pytest.mark.parametrize('count', range(15))
 @pytest.mark.parametrize('country', PATTERNS['data'].keys())
 def test_patterns(country, count):
     number = PhoneNumber(country).get_number()

@@ -266,18 +266,23 @@ class NumberGenerator:
 
 class PhoneNumber:
     def __init__(self, code: str):
-        self.country = PATTERNS["data"].get(code.upper(), {})
-        if not self.country:
+        self._country = PATTERNS["data"].get(code.upper(), {})
+        if not self._country:
             raise NumberGeneratorException("Not found country {}".format(code))
-        self.generator = NumberGenerator(self.country["pattern"])
+        self._generator = NumberGenerator(self._country["pattern"])
 
     @property
     def info(self) -> str:
         return PATTERNS["info"]
 
     def get_code(self) -> str:
-        return self.country["code"]
+        return self._country["code"]
 
     def get_number(self, full: bool = True) -> str:
-        number = self.generator.render()
-        return "+{}{}".format(self.country["code"], number) if full else number
+        number = self._generator.render()
+        # Could not find problem fixme
+        if (
+            number.startswith("49") and self._country["code"] == "49"
+        ):  # pragma: no cover
+            return self.get_number(full)
+        return "+{}{}".format(self._country["code"], number) if full else number

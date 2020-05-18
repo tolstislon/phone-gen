@@ -1,4 +1,4 @@
-# Auto-generated file 2020-05-18 00:57:29 UTC
+# Auto-generated file 2020-05-18 16:15:00 UTC
 # Resource: https://github.com/google/libphonenumber v8.12.3
 
 PATTERNS = {
