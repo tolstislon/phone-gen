@@ -266,7 +266,7 @@ class NumberGenerator:
 
 class PhoneNumber:
     def __init__(self, code: str):
-        self.country = PATTERNS['data'].get(code.upper(), {})
+        self.country = PATTERNS["data"].get(code.upper(), {})
         if not self.country:
             raise NumberGeneratorException("Not found country {}".format(code))
         self.generator = NumberGenerator(self.country["pattern"])

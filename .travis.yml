@@ -1,0 +1,65 @@
+dist: bionic
+language: python
+
+git:
+  depth: false
+
+stages:
+  - black
+  - flake8
+  - test
+
+jobs:
+  include:
+    - stage: "black"
+      python: "3.6"
+      env: BLACK=19.10b0
+      install: pip install black==$BLACK
+      script: black ./phone_gen --check
+      after_success: false
+    - stage: "flake8"
+      python: "3.6"
+      env:
+        - FLAKE8=3.8.1
+        - PEP8_NAMING=0.10.0
+      install:
+        - pip install flake8==$FLAKE8
+        - pip install pep8-naming==$PEP8_NAMING
+      script: flake8 ./phone_gen
+      after_success: false
+
+env:
+  - PHONENUMBERS="-U phonenumbers"  # last version
+
+python:
+  - "pypy3"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+install:
+  - pip install $PHONENUMBERS
+  - pip install pytest-cov==2.8.1
+  - pip install pytest==5.4.2
+  - pip install -e .
+script:
+  - pip freeze | grep phonenumbers
+  - pytest tests
+deploy:
+  provider: pypi
+  user: $PYPI_USER
+  password: $PYPI_PASSWORD
+  skip_existing: true
+  distributions: bdist_wheel --universal
+  on:
+    tags: true
+    repo: tolstislon/phone_gen
+    python: "3.8"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always

@@ -13,7 +13,7 @@ setup(
     license='MIT License',
     author='tolstislon',
     author_email='tolstislon@gmail.com',
-    description='Phone number generator',
+    description='Phone number generator for libphonenumber',
     long_description=long_description,
     long_description_content_type='text/markdown',
     use_scm_version={"write_to": "phone_gen/__version__.py"},
@@ -22,10 +22,9 @@ setup(
     include_package_data=True,
     keywords=[],
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.5',
@@ -34,6 +33,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
-        'Topic :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Software Development :: Testing',
+        'Topic :: Communications :: Telephony'
     ]
 )
