@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from phone_gen.generator import NumberGenerator, NumberGeneratorException, NumberGeneratorSyntaxException
+from phone_gen._generator import NumberGenerator, NumberGeneratorException, NumberGeneratorSyntaxException
 
 
 def test_one():
