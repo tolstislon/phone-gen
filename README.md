@@ -1,14 +1,15 @@
 # Phone Gen
 
-[![Build Status](https://travis-ci.com/tolstislon/phone_gen.svg?branch=master)](https://travis-ci.com/tolstislon/phone_gen)
-[![codecov](https://codecov.io/gh/tolstislon/phone-gen/branch/master/graph/badge.svg)](https://codecov.io/gh/tolstislon/phone-gen)
 [![PyPI](https://img.shields.io/pypi/v/phone-gen?color=%2301a001&label=version&logo=version)](https://pypi.org/project/phone-gen/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://pypi.org/project/phone-gen/)
+[![Downloads](https://pepy.tech/badge/phone-gen)](https://pepy.tech/project/phone-gen)
+[![Build Status](https://travis-ci.com/tolstislon/phone_gen.svg?branch=master)](https://travis-ci.com/tolstislon/phone-gen)
+[![codecov](https://codecov.io/gh/tolstislon/phone-gen/branch/master/graph/badge.svg)](https://codecov.io/gh/tolstislon/phone-gen)
 
-Phone number generator for [Google's libphonenumber library](https://github.com/google/libphonenumber)
+International phone number generation
 
-This module was created exclusively for generating test data, when it is necessary to enter phone numbers in fields that are validated by the `libphonenumber` library or its ports.
+This module was created exclusively for generating test data
 
 
 Installation
@@ -23,7 +24,7 @@ Example
 ```python
 from phone_gen import PhoneNumber
 
-phone_number = PhoneNumber('GB')
+phone_number = PhoneNumber("GB")
 
 # Get a phone number
 number = phone_number.get_number()
@@ -53,16 +54,50 @@ def phone_number():
 
 
 def test_one(phone_number):
-    number = phone_number('DE')
+    number = phone_number("DE")
     ...
+```
+
+Using the CLI
+----
+```bash
+usage: phone-gen [-h] [-v] [-n] country
+
+International phone number generation
+
+positional arguments:
+  country        Country code example: GB
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -v, --version  show program's version number and exit
+  -n, --not-full  Get a phone number without a country code
+
+```
+
+Example
+```bash
+# Get a phone number
+$ phone-gen GB
++44199561679
+
+# Get a phone number without a country code
+$ phone-gen GB -n
+199561343
 ```
 
 Resources
 ----
-* [libphonenumber](https://github.com/google/libphonenumber)
+* [Google's libphonenumber](https://github.com/google/libphonenumber)
 * Modified [strgen](https://github.com/paul-wolf/strgen) library
 
 
 Contributing
 ----
 Contributions are very welcome.
+
+
+Changelog
+----
+* **1.1.0** Added cli
+* **1.0.0** The first stable release

@@ -1,6 +1,3 @@
-"""
-Modified StringGenerator https://github.com/paul-wolf/strgen
-"""
 import random
 import string
 from abc import ABCMeta, abstractmethod
@@ -42,6 +39,10 @@ class NumberGeneratorException(Exception):
 
 class NumberGeneratorSyntaxException(NumberGeneratorException):
     """Syntax Exception"""
+
+
+class PhoneNumberNotFound(Exception):
+    """Not found country"""
 
 
 class StringNode(metaclass=ABCMeta):
@@ -87,6 +88,10 @@ class CharacterSet(StringNode):
 
 
 class NumberGenerator:
+    """
+    Modified StringGenerator https://github.com/paul-wolf/strgen
+    """
+
     _code = {"d": string.digits}
 
     def __init__(self, pattern: str):
@@ -268,7 +273,7 @@ class PhoneNumber:
     def __init__(self, code: str):
         self._country = PATTERNS["data"].get(code.upper(), {})
         if not self._country:
-            raise NumberGeneratorException("Not found country {}".format(code))
+            raise PhoneNumberNotFound("Not found country {}".format(code))
         self._generator = NumberGenerator(self._country["pattern"])
 
     @property

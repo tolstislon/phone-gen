@@ -1,9 +1,11 @@
+import random
+
 import phonenumbers
 import pytest
-import random
+
 from phone_gen import PhoneNumber
+from phone_gen._generator import PhoneNumberNotFound
 from phone_gen.patterns import PATTERNS
-from phone_gen.generator import NumberGeneratorException
 
 
 @pytest.mark.parametrize('count', range(15))
@@ -26,5 +28,5 @@ def test_get_code():
 
 
 def test_invalid_country():
-    with pytest.raises(NumberGeneratorException):
+    with pytest.raises(PhoneNumberNotFound):
         PhoneNumber('qwe')
