@@ -1,11 +1,9 @@
 """
-Phone number generator for Google's libphonenumber library
-https://github.com/google/libphonenumber
+International phone number generation
 
-This module was created exclusively for generating test data, when it is
-necessary to enter phone numbers in fields that are validated by the
-`libphonenumber` library or its ports.
+This module was created exclusively for generating test data
 
+Support ISO 3166-2, ISO 3166-3 and Country Name
 ----
 from phone_gen import PhoneNumber
 
