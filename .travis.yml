@@ -29,7 +29,7 @@ jobs:
       after_success: false
 
 env:
-  - PHONENUMBERS="8.12.3"  # last version
+  - PHONENUMBERS="8.12.4"  # last version
 
 python:
   - "pypy3"

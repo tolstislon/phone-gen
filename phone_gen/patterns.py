@@ -1,8 +1,8 @@
-# Auto-generated file 2020-05-18 16:15:00 UTC
-# Resource: https://github.com/google/libphonenumber v8.12.3
+# Auto-generated file 2020-05-21 09:13:58 UTC
+# Resource: https://github.com/google/libphonenumber v8.12.4
 
 PATTERNS = {
-    "info": "libphonenumber v8.12.3",
+    "info": "libphonenumber v8.12.4",
     "data": {
         "AC": {"code": "247", "pattern": "((6[2-467][\\d]{3}))"},
         "AD": {"code": "376", "pattern": "(([78][\\d]{5}))"},
