@@ -7,7 +7,7 @@ verify_ssl = true
 requests = "==2.23.0"
 pytest = "==5.4.2"
 pytest-cov = "==2.8.1"
-phonenumbers = "==8.12.3"
+phonenumbers = "==8.12.4"
 black = "==19.10b0"
 flake8 = "==3.8.1"
 pep8-naming = "==0.10.0"
