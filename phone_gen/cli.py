@@ -11,7 +11,12 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "-v", "--version", action="version", version="%(prog)s {}".format(__version__)
 )
-parser.add_argument("country", help="Country code example: GB", metavar="country")
+parser.add_argument(
+    "country",
+    help='Country code or country name. Example: "GB" or "Great Britain"',
+    metavar="country",
+    nargs="+",
+)
 parser.add_argument(
     "-n",
     "--not-full",
@@ -23,7 +28,8 @@ parser.add_argument(
 
 def main():
     args = parser.parse_args()
+    country = " ".join(args.country)
     try:
-        print(PhoneNumber(args.country).get_number(args.full))
+        print(PhoneNumber(country).get_number(args.full))
     except (PhoneNumberNotFound, NumberGeneratorException) as error:
         print("Error: {}".format(error.args[0]))

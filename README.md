@@ -24,7 +24,11 @@ Example
 ```python
 from phone_gen import PhoneNumber
 
-phone_number = PhoneNumber("GB")
+phone_number = PhoneNumber("GB") # ISO 3166-2
+# or
+phone_number = PhoneNumber("GBR") # ISO 3166-3
+# or
+phone_number = PhoneNumber("Great Britain") # Country name
 
 # Get a phone number
 number = phone_number.get_number()
@@ -61,29 +65,39 @@ def test_one(phone_number):
 Using the CLI
 ----
 ```bash
-usage: phone-gen [-h] [-v] [-n] country
+usage: phone-gen [-h] [-v] [-n] country [country ...]
 
 International phone number generation
 
 positional arguments:
-  country        Country code example: GB
+  country         Country code or country name. Example: "GB" or "Great Britain"
 
 optional arguments:
-  -h, --help     show this help message and exit
-  -v, --version  show program's version number and exit
+  -h, --help      show this help message and exit
+  -v, --version   show program's version number and exit
   -n, --not-full  Get a phone number without a country code
-
 ```
 
 Example
 ```bash
 # Get a phone number
-$ phone-gen GB
-+44199561679
+
+$ phone-gen DE
++49791774007056
+
+$ phone-gen DEU
++499968635
+
+$ phone-gen Germany
++49960335800
+
 
 # Get a phone number without a country code
-$ phone-gen GB -n
-199561343
+$ phone-gen DE -n
+66999511
+
+$ phone-gen Germany -n
+877595
 ```
 
 Resources
@@ -99,6 +113,7 @@ Contributions are very welcome.
 
 Changelog
 ----
+* **1.2.0** Added phone number generation by `country name` and `ISO 3166-3`
 * **1.1.1** Updating patterns to libphonenumber v8.12.4
 * **1.1.0** Added cli
 * **1.0.0** The first stable release

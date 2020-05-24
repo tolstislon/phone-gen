@@ -1,8 +1,12 @@
 import random
+import re
 import string
 from abc import ABCMeta, abstractmethod
 from typing import List, Optional, Tuple
 
+from .alt_patterns import ALT_PATTERNS
+from .country_name import COUNTRY_NAME
+from .iso3 import ISO3
 from .patterns import PATTERNS
 
 SYSTEM_RANDOM = random.SystemRandom()
@@ -270,11 +274,35 @@ class NumberGenerator:
 
 
 class PhoneNumber:
-    def __init__(self, code: str):
-        self._country = PATTERNS["data"].get(code.upper(), {})
+    def __init__(self, value: str):
+        code = self._preparation(value)
+        self._country = self._find(code)
         if not self._country:
-            raise PhoneNumberNotFound("Not found country {}".format(code))
+            raise PhoneNumberNotFound('Not found country "{}"'.format(value))
         self._generator = NumberGenerator(self._country["pattern"])
+
+    def _find(self, value: str):
+        country = PATTERNS["data"].get(value)
+        if country:
+            return country
+        alt_country = ALT_PATTERNS.get(value)
+        if alt_country:
+            return (
+                alt_country
+                if "pattern" in alt_country
+                else self._find(alt_country["ref"])
+            )
+        country_name = COUNTRY_NAME.get(value)
+        if country_name:
+            return self._find(country_name["code"])
+        ico3 = ISO3.get(value)
+        if ico3:
+            return self._find(ico3["code"])
+        return None
+
+    @staticmethod
+    def _preparation(value: str) -> str:
+        return re.sub(r"\W", "", value).upper()
 
     @property
     def info(self) -> str:
