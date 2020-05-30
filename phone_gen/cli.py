@@ -9,7 +9,10 @@ parser = argparse.ArgumentParser(
     description="International phone number generation",
 )
 parser.add_argument(
-    "-v", "--version", action="version", version="%(prog)s {}".format(__version__)
+    "-v",
+    "--version",
+    action="version",
+    version="%(prog)s {} ({})".format(__version__, PhoneNumber.info()),
 )
 parser.add_argument(
     "country",

@@ -1,6 +1,6 @@
 # Phone Gen
 
-[![PyPI](https://img.shields.io/pypi/v/phone-gen?color=%2301a001&label=version&logo=version)](https://pypi.org/project/phone-gen/)
+[![PyPI](https://img.shields.io/pypi/v/phone-gen?color=%2301a001&label=pypi&logo=version)](https://pypi.org/project/phone-gen/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://pypi.org/project/phone-gen/)
 [![Downloads](https://pepy.tech/badge/phone-gen)](https://pepy.tech/project/phone-gen)
@@ -111,8 +111,18 @@ Contributing
 Contributions are very welcome.
 
 
+##### How to build a version with libphonenumber below v8.12.3
+Need Python 3.6 or more.
+1. `git pull https://github.com/tolstislon/phone-gen.git`
+2. `cd phone-gen`
+3. `pip install requests`
+4. `python dev_tools/patterns_generator.py -t {Desired Tag}`
+5. `python setup.py install`
+
+
 Changelog
 ----
+* **1.3.0** Added the ability to build a module with old versions of libphonenumber
 * **1.2.0** Added phone number generation by `country name` and `ISO 3166-3`
 * **1.1.1** Updating patterns to libphonenumber v8.12.4
 * **1.1.0** Added cli

@@ -11,14 +11,15 @@ from phone_gen.patterns import PATTERNS
 @pytest.mark.parametrize('count', range(15))
 @pytest.mark.parametrize('country', PATTERNS['data'].keys())
 def test_patterns(country, count):
-    number = PhoneNumber(country).get_number()
+    phone_number = PhoneNumber(country)
+    number = phone_number.get_number()
     num_obj = phonenumbers.parse(number, country)
     assert phonenumbers.is_valid_number_for_region(num_obj, country)
 
 
 def test_info():
     phone_number = PhoneNumber('gb')
-    assert phone_number.info.startswith('libphonenumber')
+    assert phone_number.info().startswith('libphonenumber')
 
 
 def test_get_code():
@@ -30,3 +31,8 @@ def test_get_code():
 def test_invalid_country():
     with pytest.raises(PhoneNumberNotFound):
         PhoneNumber('qwe')
+
+
+def test_str_method():
+    phone_number = PhoneNumber('GB')
+    assert str(phone_number).startswith('<PhoneNumber(libphonenumber')

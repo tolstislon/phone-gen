@@ -7,6 +7,7 @@ git:
 stages:
   - black
   - flake8
+  - patterns
   - test
 
 jobs:
@@ -15,19 +16,27 @@ jobs:
       python: "3.6"
       env: BLACK=19.10b0
       install: pip install black==$BLACK
-      script: black ./phone_gen --check
+      script: black phone_gen dev_tools --check
       after_success: false
     - stage: "flake8"
       python: "3.6"
       env:
-        - FLAKE8=3.8.1
+        - FLAKE8=3.8.2
         - PEP8_NAMING=0.10.0
       install:
         - pip install flake8==$FLAKE8
         - pip install pep8-naming==$PEP8_NAMING
-      script: flake8 ./phone_gen
+      script: flake8 phone_gen dev_tools
       after_success: false
-
+    - stage: "patterns"
+      python: "3.6"
+      env: LIBPHONENUMBER=v8.8.8
+      install: pip install -U requests
+      script:
+        - python dev_tools/patterns_generator.py --tag=$LIBPHONENUMBER
+        - pip install -e .
+        - phone-gen --version
+      after_success: false
 env:
   - PHONENUMBERS="8.12.4"  # last version
 
@@ -37,9 +46,10 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9-dev"
 install:
   - pip install phonenumbers==$PHONENUMBERS
-  - pip install pytest-cov==2.8.1
+  - pip install pytest-cov==2.9.0
   - pip install pytest==5.4.2
   - pip install -e .
 script:

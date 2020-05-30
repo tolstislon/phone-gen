@@ -6,10 +6,10 @@ verify_ssl = true
 [dev-packages]
 requests = "==2.23.0"
 pytest = "==5.4.2"
-pytest-cov = "==2.8.1"
+pytest-cov = "==2.9.0"
 phonenumbers = "==8.12.4"
 black = "==19.10b0"
-flake8 = "==3.8.1"
+flake8 = "==3.8.2"
 pep8-naming = "==0.10.0"
 
 [packages]
