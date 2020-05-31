@@ -258,7 +258,6 @@ class NumberGenerator:
                     seq.append(SequenceOR([left_operand, right_operand]))
                 op = ""
                 left_operand = None
-                # right_operand = None
 
         # check for syntax errors
         if op:
@@ -280,6 +279,9 @@ class PhoneNumber:
         if not self._country:
             raise PhoneNumberNotFound('Not found country "{}"'.format(value))
         self._generator = NumberGenerator(self._country["pattern"])
+
+    def __str__(self):
+        return "<PhoneNumber({})>".format(self.info())
 
     def _find(self, value: str):
         country = PATTERNS["data"].get(value)
@@ -304,8 +306,8 @@ class PhoneNumber:
     def _preparation(value: str) -> str:
         return re.sub(r"\W", "", value).upper()
 
-    @property
-    def info(self) -> str:
+    @staticmethod
+    def info() -> str:
         return PATTERNS["info"]
 
     def get_code(self) -> str:

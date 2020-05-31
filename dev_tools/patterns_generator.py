@@ -1,18 +1,30 @@
+import argparse
+import io
 import json
+import tarfile
+import tempfile
 import xml.etree.ElementTree as ElementTree
 from datetime import datetime
 from pathlib import Path
-from re import findall
+from re import findall, match
 from typing import Dict, Generator, Tuple
 
 import requests
 
-RESOURCE = "https://raw.githubusercontent.com/google/libphonenumber/master/resources/PhoneNumberMetadata.xml"
+argparser = argparse.ArgumentParser(
+    prog="pattern_generator",
+    add_help=True,
+    description="Pattern generator to phone-gen",
+)
+argparser.add_argument(
+    "-t", "--tag", dest="tag", help="libphonenumber tag", default="latest"
+)
+
+root = Path(__file__).absolute().parent.parent
 
 TEMPLATE = """# -*- coding: utf-8 -*-
 \"""
 Auto-generated file {datetime} UTC
-
 Resource: https://github.com/google/libphonenumber {version}
 \"""
 
@@ -20,6 +32,9 @@ Resource: https://github.com/google/libphonenumber {version}
 PATTERNS = {patterns}
 
 """
+XML_FILE = "PhoneNumberMetadata.xml"
+ARCHIVE_PATH = "libphonenumber-{version}/resources/{file}"
+SOURCE_TAG = "https://github.com/google/libphonenumber/archive/{tag}.tar.gz"
 
 
 class RegexCompiler:
@@ -65,22 +80,50 @@ def get_latest() -> str:
     return response.url.split("/")[-1]
 
 
-def main():
-    response = requests.get(RESOURCE)
-    parser = Parser(response.text)
-    data = {code: value for code, value in parser.render()}
-    root_path = Path(__file__).absolute().parent.parent
-    file = root_path.joinpath("phone_gen", "patterns.py")
-    version = get_latest()
-    with file.open("wb") as _file:
-        temp = TEMPLATE.format(
-            datetime=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
-            patterns=json.dumps(
-                {"info": "libphonenumber {}".format(version), "data": data}, indent=4
-            ),
-            version=version,
+def parsing_xml(file: Path):
+    with file.open("rb") as _file:
+        parser = Parser(_file.read().decode())
+        return {code: value for code, value in parser.render()}
+
+
+def parsing_version(tag: str) -> str:
+    version = match(
+        r".*(?P<major>\d{1,2})\.(?P<minor>\d{1,2})\.(?P<patch>\d{1,2}).*", tag
+    )
+    if version:
+        return "{}.{}.{}".format(
+            version.group("major"), version.group("minor"), version.group("patch")
         )
-        _file.write(temp.encode())
+    raise ValueError("Invalid tag: {}".format(version))
+
+
+def main():
+    args = argparser.parse_args()
+    tag = get_latest() if args.tag == "latest" else args.tag
+    if tag:
+        version = parsing_version(tag)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            response = requests.get(SOURCE_TAG.format(tag=tag), stream=True)
+            if not response.ok:
+                raise ValueError("Invalid tag: {}".format(tag))
+            with tarfile.open(fileobj=io.BytesIO(response.content)) as tar_file:
+                archive_path = ARCHIVE_PATH.format(version=version, file=XML_FILE)
+                tar_file.extract(archive_path, tmpdir)
+            xml_file = Path(tmpdir, archive_path)
+            if not xml_file.exists():
+                raise FileNotFoundError(xml_file.absolute())
+            data = parsing_xml(xml_file)
+            patterns_path = root.joinpath("phone_gen", "patterns.py")
+            with patterns_path.open("wb") as _file:
+                temp = TEMPLATE.format(
+                    datetime=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+                    patterns=json.dumps(
+                        {"info": "libphonenumber {}".format(tag), "data": data},
+                        indent=4,
+                    ),
+                    version=tag,
+                )
+                _file.write(temp.encode())
 
 
 if __name__ == "__main__":
