@@ -122,6 +122,7 @@ Need Python 3.6 or more.
 
 Changelog
 ----
+* **1.3.1** Updating patterns to libphonenumber v8.12.5
 * **1.3.0** Added the ability to build a module with old versions of libphonenumber
 * **1.2.0** Added phone number generation by `country name` and `ISO 3166-3`
 * **1.1.1** Updating patterns to libphonenumber v8.12.4
