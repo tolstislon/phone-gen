@@ -9,6 +9,6 @@ ALT_PATTERNS = {
     "NY": {"code": "90", "pattern": "(392[\\d]{7})", "ref": "TR"},
     "AQ": {"code": "672", "ref": "NF"},
     "GJ": {"code": "590", "ref": "GP"},
-    "MI": {"code": "808", "pattern": "([1-9]\\d{7})"},
+    "MI": {"code": "808", "pattern": "([1-9][\\d]{7})"},
     "AN": {"code": "599", "ref": "CW"},
 }
