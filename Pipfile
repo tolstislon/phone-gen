@@ -13,7 +13,7 @@ flake8 = "==3.8.3"
 pep8-naming = "==0.11.1"
 
 [packages]
-phone-gen = {editable = true,path = "."}
+phone-gen = {editable = true, path = "."}
 
 [requires]
 python_version = "3.8"
