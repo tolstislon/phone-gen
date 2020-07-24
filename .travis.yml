@@ -54,7 +54,8 @@ install:
   - pip install -e .
 script:
   - pip freeze | grep phonenumbers
-  - pytest tests
+  - pytest tests -m "not phonenumbers"
+
 
 deploy:
   provider: pypi

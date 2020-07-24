@@ -8,6 +8,7 @@ from phone_gen._generator import PhoneNumberNotFound
 from phone_gen.patterns import PATTERNS
 
 
+@pytest.mark.phonenumbers
 @pytest.mark.parametrize('count', range(15))
 @pytest.mark.parametrize('country', PATTERNS['data'].keys())
 def test_patterns(country, count):
