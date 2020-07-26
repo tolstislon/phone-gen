@@ -38,7 +38,7 @@ jobs:
         - phone-gen --version
       after_success: false
 env:
-  - PHONENUMBERS="8.12.6"  # last version
+  - PHONENUMBERS="8.12.7"  # last version
 
 python:
   - "pypy3"
@@ -54,7 +54,7 @@ install:
   - pip install -e .
 script:
   - pip freeze | grep phonenumbers
-  - pytest tests -m "not phonenumbers"
+  - pytest tests
 
 
 deploy:
