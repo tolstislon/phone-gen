@@ -38,7 +38,7 @@ jobs:
         - phone-gen --version
       after_success: false
 env:
-  - PHONENUMBERS="8.12.7"  # last version
+  - PHONENUMBERS="8.12.8"  # last version
 
 python:
   - "pypy3"
@@ -49,8 +49,8 @@ python:
   - "3.9-dev"
 install:
   - pip install phonenumbers==$PHONENUMBERS
-  - pip install pytest-cov==2.10.0
-  - pip install pytest==5.4.3
+  - pip install pytest-cov==2.10.1
+  - pip install pytest==6.0.1
   - pip install -e .
 script:
   - pip freeze | grep phonenumbers
