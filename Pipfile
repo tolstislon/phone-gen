@@ -5,15 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 requests = "==2.24.0"
-pytest = "==5.4.3"
-pytest-cov = "==2.10.0"
-phonenumbers = "==8.12.7"
+pytest = "==6.0.1"
+pytest-cov = "==2.10.1"
+phonenumbers = "==8.12.8"
 black = "==19.10b0"
 flake8 = "==3.8.3"
 pep8-naming = "==0.11.1"
 
 [packages]
-phone-gen = {editable = true, path = "."}
 
 [requires]
 python_version = "3.8"
