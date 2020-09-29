@@ -122,6 +122,7 @@ Need Python 3.6 or more.
 
 Changelog
 ----
+* **1.3.7** Updating patterns to libphonenumber v8.12.10
 * **1.3.6** Updating patterns to libphonenumber v8.12.9
 * **1.3.5** Updating patterns to libphonenumber v8.12.8
 * **1.3.4** Updating patterns to libphonenumber v8.12.7
