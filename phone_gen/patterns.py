@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Auto-generated file 2020-09-29 18:09:07 UTC
-Resource: https://github.com/google/libphonenumber v8.12.10
+Auto-generated file 2020-10-12 13:09:29 UTC
+Resource: https://github.com/google/libphonenumber v8.12.11
 """
 
 
 PATTERNS = {
-    "info": "libphonenumber v8.12.10",
+    "info": "libphonenumber v8.12.11",
     "data": {
         "AC": {"code": "247", "pattern": "((6[2-467][\\d]{3}))"},
         "AD": {"code": "376", "pattern": "(([78][\\d]{5}))"},
@@ -300,7 +300,7 @@ PATTERNS = {
         },
         "HK": {
             "code": "852",
-            "pattern": "(((384[0-5])|(58(0[1-8])|(1[2-9]))[\\d]{4})|((2([13-9][\\d])|(2[013-9]))|(3([1569][0-24-9])|(4[0-246-9])|(7[0-24-69])|(89))[\\d]{5}))",
+            "pattern": "(((2([13-9][\\d])|(2[013-9])[\\d])|(3(([1569][0-24-9])|(4[0-246-9])|(7[0-24-69])[\\d])|(8(4[0-6])|(5[0-5])|(9[\\d])))|(58(0[1-8])|(1[2-9]))[\\d]{4}))",
         },
         "HN": {
             "code": "504",
