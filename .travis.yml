@@ -38,7 +38,7 @@ jobs:
         - phone-gen --version
       after_success: false
 env:
-  - PHONENUMBERS="8.12.13"  # last version
+  - PHONENUMBERS="8.12.14"  # last version
 
 python:
   - "pypy3"
@@ -66,7 +66,7 @@ deploy:
   on:
     tags: true
     repo: tolstislon/phone-gen
-    python: "3.8"
+    python: "3.9"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
