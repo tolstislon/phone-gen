@@ -50,7 +50,7 @@ python:
 install:
   - pip install phonenumbers==$PHONENUMBERS
   - pip install pytest-cov==2.10.1
-  - pip install pytest==6.2.1
+  - pip install pytest==6.1.2 # last version 3.5
   - pip install -e .
 script:
   - pip freeze | grep phonenumbers
