@@ -27,11 +27,11 @@ Resources:
     * Modified strgen https://github.com/paul-wolf/strgen
 """
 
-from ._generator import PhoneNumber
+from ._generator import PhoneNumber, PhoneNumberNotFound
 
 try:
     from .__version__ import version as __version__
 except ImportError:  # pragma: no cover
     __version__ = "unknown"
 
-__all__ = ["PhoneNumber", "__version__"]
+__all__ = ["PhoneNumber", "__version__", "PhoneNumberNotFound"]
