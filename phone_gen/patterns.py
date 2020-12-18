@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Auto-generated file 2020-12-04 07:56:21 UTC
-Resource: https://github.com/google/libphonenumber v8.12.14
+Auto-generated file 2020-12-18 08:23:49 UTC
+Resource: https://github.com/google/libphonenumber v8.12.15
 """
 
 
 PATTERNS = {
-    "info": "libphonenumber v8.12.14",
+    "info": "libphonenumber v8.12.15",
     "data": {
         "AC": {"code": "247", "pattern": "((6[2-467][\\d]{3}))"},
         "AD": {"code": "376", "pattern": "(([78][\\d]{5}))"},
