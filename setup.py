@@ -16,8 +16,9 @@ setup(
     description="International phone number generation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    use_scm_version={"write_to": "phone_gen/__version__.py"},
-    setup_requires=["setuptools_scm"],
+    # use_scm_version={"write_to": "phone_gen/__version__.py"},
+    # setup_requires=["setuptools_scm"],
+    version='1.4.0',
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },

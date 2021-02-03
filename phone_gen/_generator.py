@@ -36,6 +36,13 @@ META_TOKENS = (
     VBAR,
 )  # type: Tuple[str, ...]
 
+ALTERNATIVE_FILE = None
+
+
+def load_alt_patters(patters: dict):
+    global ALTERNATIVE_FILE
+    ALTERNATIVE_FILE = patters
+
 
 class NumberGeneratorException(Exception):
     """Base Exception"""
@@ -284,6 +291,11 @@ class PhoneNumber:
         return "<PhoneNumber({})>".format(self.info())
 
     def _find(self, value: str):
+        if isinstance(ALTERNATIVE_FILE, dict):
+            country = ALTERNATIVE_FILE.get(value)
+            if country:
+                return country
+
         country = PATTERNS["data"].get(value)
         if country:
             return country
