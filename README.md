@@ -15,20 +15,22 @@ This module was created exclusively for generating test data
 Installation
 ----
 Install using pip with
+
 ```bash
 pip install phone-gen
 ```
 
 Example
 ----
+
 ```python
 from phone_gen import PhoneNumber
 
-phone_number = PhoneNumber("GB") # ISO 3166-2
+phone_number = PhoneNumber("GB")  # ISO 3166-2
 # or
-phone_number = PhoneNumber("GBR") # ISO 3166-3
+phone_number = PhoneNumber("GBR")  # ISO 3166-3
 # or
-phone_number = PhoneNumber("Great Britain") # Country name
+phone_number = PhoneNumber("Great Britain")  # Country name
 
 # Get a phone number
 number = phone_number.get_number()
@@ -41,9 +43,18 @@ print(country_code)  # 44
 # Get a phone number without a country code
 number = phone_number.get_number(full=False)
 print(number)  # 183782623
+
+# Get a mobile phone number
+number = phone_number.get_mobile()
+print(number)  # +447911899521
+
+# Get a national phone number
+number = phone_number.get_national()
+print(number)  # +442408055065
 ```
 
 ##### pytest fixture
+
 ```python
 import pytest
 from phone_gen import PhoneNumber
@@ -64,21 +75,25 @@ def test_one(phone_number):
 
 Using the CLI
 ----
+
 ```bash
 usage: phone-gen [-h] [-v] [-n] country [country ...]
 
 International phone number generation
 
 positional arguments:
-  country         Country code or country name. Example: "GB" or "Great Britain"
+  country         Country code or country name. Example: "GB" or "GBR" or "Great Britain"
 
 optional arguments:
   -h, --help      show this help message and exit
   -v, --version   show program's version number and exit
-  -n, --not-full  Get a phone number without a country code
+  -f, --not-full  Get a phone number without a country code
+  -m, --mobile    Get mobile phone number
+  -n, --national  Get national phone number
 ```
 
 Example
+
 ```bash
 # Get a phone number
 
@@ -93,26 +108,35 @@ $ phone-gen Germany
 
 
 # Get a phone number without a country code
-$ phone-gen DE -n
+$ phone-gen -f DE
 66999511
 
-$ phone-gen Germany -n
+$ phone-gen -f Germany
 877595
+
+# Get mobile phone number
+$ phone-gen -m DE
++491601376066
+
+# Get national phone number
+$ phone-gen -n DE
++4940381
 ```
 
 Resources
 ----
+
 * [Google's libphonenumber](https://github.com/google/libphonenumber)
 * Modified [strgen](https://github.com/paul-wolf/strgen) library
-
 
 Contributing
 ----
 Contributions are very welcome.
 
-
 ##### How to build a version with libphonenumber below v8.12.3
+
 Need Python 3.6 or more.
+
 1. `git pull https://github.com/tolstislon/phone-gen.git`
 2. `cd phone-gen`
 3. `pip install requests`
@@ -120,25 +144,3 @@ Need Python 3.6 or more.
 5. `python setup.py install`
 
 
-Changelog
-----
-* **1.4.0** Added load_alt_patters function
-* **1.3.14** Updating patterns to libphonenumber v8.12.17
-* **1.3.13** Updating patterns to libphonenumber v8.12.16
-* **1.3.12** Updating patterns to libphonenumber v8.12.15
-* **1.3.11** Updating patterns to libphonenumber v8.12.14
-* **1.3.10** Updating patterns to libphonenumber v8.12.13
-* **1.3.9** Updating patterns to libphonenumber v8.12.12
-* **1.3.8** Updating patterns to libphonenumber v8.12.11
-* **1.3.7** Updating patterns to libphonenumber v8.12.10
-* **1.3.6** Updating patterns to libphonenumber v8.12.9
-* **1.3.5** Updating patterns to libphonenumber v8.12.8
-* **1.3.4** Updating patterns to libphonenumber v8.12.7
-* **1.3.3** Updating patterns to libphonenumber v8.12.6
-* **1.3.2** Fix `MI` invalid pattern
-* **1.3.1** Updating patterns to libphonenumber v8.12.5
-* **1.3.0** Added the ability to build a module with old versions of libphonenumber
-* **1.2.0** Added phone number generation by `country name` and `ISO 3166-3`
-* **1.1.1** Updating patterns to libphonenumber v8.12.4
-* **1.1.0** Added cli
-* **1.0.0** The first stable release

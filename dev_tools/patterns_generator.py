@@ -59,6 +59,7 @@ class Parser:
         self.root = ElementTree.fromstring(source)
         self.line_tag = "fixedLine"
         self.pattern_tag = "nationalNumberPattern"
+        self.mobile_tag = 'mobile'
 
     def render(self) -> Generator[Tuple[str, Dict[str, str]], None, None]:
         for territory in self.root.iter("territory"):
@@ -72,6 +73,12 @@ class Parser:
                     value["pattern"] = RegexCompiler(
                         national_number_pattern.text
                     ).compile()
+            for mobile_tag in territory.iter(self.mobile_tag):
+                for national_number_pattern in mobile_tag.iter(self.pattern_tag):
+                    value["mobile"] = RegexCompiler(
+                        national_number_pattern.text
+                    ).compile()
+
             yield code, value
 
 
