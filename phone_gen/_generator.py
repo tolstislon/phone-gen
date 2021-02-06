@@ -44,6 +44,11 @@ def load_alt_patters(patters: dict):
     ALTERNATIVE_FILE = patters
 
 
+def clean_alt_patters():
+    global ALTERNATIVE_FILE
+    ALTERNATIVE_FILE = None
+
+
 class NumberGeneratorException(Exception):
     """Base Exception"""
 
@@ -285,7 +290,8 @@ class PhoneNumber:
         self._country = self._find(code)
         if not self._country:
             raise PhoneNumberNotFound('Not found country "{}"'.format(value))
-        self._generator = NumberGenerator(self._country["pattern"])
+        self._national = NumberGenerator(self._country["pattern"])
+        self._mobile = NumberGenerator(self._country.get("mobile", self._country["pattern"]))
 
     def __str__(self):
         return "<PhoneNumber({})>".format(self.info())
@@ -326,10 +332,19 @@ class PhoneNumber:
         return self._country["code"]
 
     def get_number(self, full: bool = True) -> str:
-        number = self._generator.render()
+        if RANDINT(1, 2) == 1:
+            return self.get_national(full=full)
+        return self.get_mobile(full=full)
+
+    def get_mobile(self, full: bool = True) -> str:
+        number = self._mobile.render()
+        return "+{}{}".format(self._country["code"], number) if full else number
+
+    def get_national(self, full: bool = True) -> str:
+        number = self._national.render()
         # Could not find problem fixme
         if (
-            number.startswith("49") and self._country["code"] == "49"
+                number.startswith("49") and self._country["code"] == "49"
         ):  # pragma: no cover
-            return self.get_number(full)
+            return self.get_national(full)
         return "+{}{}".format(self._country["code"], number) if full else number

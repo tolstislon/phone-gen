@@ -16,16 +16,30 @@ parser.add_argument(
 )
 parser.add_argument(
     "country",
-    help='Country code or country name. Example: "GB" or "Great Britain"',
+    help='Country code or country name. Example: "GB" or "GBR" or "Great Britain"',
     metavar="country",
     nargs="+",
 )
 parser.add_argument(
-    "-n",
+    "-f",
     "--not-full",
     action="store_false",
     help="Get a phone number without a country code",
     dest="full",
+)
+parser.add_argument(
+    "-m",
+    "--mobile",
+    action="store_true",
+    help="Get mobile phone number",
+    dest="mobile",
+)
+parser.add_argument(
+    "-n",
+    "--national",
+    action="store_true",
+    help="Get national phone number",
+    dest="national",
 )
 
 
@@ -33,6 +47,13 @@ def main():
     args = parser.parse_args()
     country = " ".join(args.country)
     try:
-        print(PhoneNumber(country).get_number(args.full))
+        phone_number = PhoneNumber(country)
+        if args.national:
+            number = phone_number.get_national(args.full)
+        elif args.mobile:
+            number = phone_number.get_mobile(args.full)
+        else:
+            number = phone_number.get_number(args.full)
+        print(number)
     except (PhoneNumberNotFound, NumberGeneratorException) as error:
         print("Error: {}".format(error.args[0]))

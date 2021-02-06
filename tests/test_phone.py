@@ -3,8 +3,7 @@ import random
 import phonenumbers
 import pytest
 
-from phone_gen import PhoneNumber
-from phone_gen._generator import PhoneNumberNotFound
+from phone_gen import PhoneNumber, PhoneNumberNotFound
 from phone_gen.patterns import PATTERNS
 
 
@@ -14,6 +13,26 @@ from phone_gen.patterns import PATTERNS
 def test_patterns(country, count):
     phone_number = PhoneNumber(country)
     number = phone_number.get_number()
+    num_obj = phonenumbers.parse(number, country)
+    assert phonenumbers.is_valid_number_for_region(num_obj, country)
+
+
+@pytest.mark.phonenumbers
+@pytest.mark.parametrize('count', range(15))
+@pytest.mark.parametrize('country', PATTERNS['data'].keys())
+def test_national(country, count):
+    phone_number = PhoneNumber(country)
+    number = phone_number.get_national()
+    num_obj = phonenumbers.parse(number, country)
+    assert phonenumbers.is_valid_number_for_region(num_obj, country)
+
+
+@pytest.mark.phonenumbers
+@pytest.mark.parametrize('count', range(15))
+@pytest.mark.parametrize('country', PATTERNS['data'].keys())
+def test_mobile(country, count):
+    phone_number = PhoneNumber(country)
+    number = phone_number.get_mobile()
     num_obj = phonenumbers.parse(number, country)
     assert phonenumbers.is_valid_number_for_region(num_obj, country)
 
