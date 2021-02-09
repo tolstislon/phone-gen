@@ -2,11 +2,10 @@
 
 ## Version 2:
 
+* **2.0.1** Updating patterns to libphonenumber v8.12.18
 * **2.0.0**
     * Added support for mobile phone numbers
     * Added separate calls to get mobile phone number and national phone number
-
-----
 
 ## Version 1:
 

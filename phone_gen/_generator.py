@@ -291,7 +291,9 @@ class PhoneNumber:
         if not self._country:
             raise PhoneNumberNotFound('Not found country "{}"'.format(value))
         self._national = NumberGenerator(self._country["pattern"])
-        self._mobile = NumberGenerator(self._country.get("mobile", self._country["pattern"]))
+        self._mobile = NumberGenerator(
+            self._country.get("mobile", self._country["pattern"])
+        )
 
     def __str__(self):
         return "<PhoneNumber({})>".format(self.info())
@@ -344,7 +346,7 @@ class PhoneNumber:
         number = self._national.render()
         # Could not find problem fixme
         if (
-                number.startswith("49") and self._country["code"] == "49"
+            number.startswith("49") and self._country["code"] == "49"
         ):  # pragma: no cover
             return self.get_national(full)
         return "+{}{}".format(self._country["code"], number) if full else number
