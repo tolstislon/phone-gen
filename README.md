@@ -4,8 +4,6 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://pypi.org/project/phone-gen/)
 [![Downloads](https://pepy.tech/badge/phone-gen)](https://pepy.tech/project/phone-gen)
-[![Build Status](https://travis-ci.com/tolstislon/phone-gen.svg?branch=master)](https://travis-ci.com/tolstislon/phone-gen)
-[![codecov](https://codecov.io/gh/tolstislon/phone-gen/branch/master/graph/badge.svg)](https://codecov.io/gh/tolstislon/phone-gen)
 
 International phone number generation
 
