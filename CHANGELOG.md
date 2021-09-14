@@ -5,6 +5,7 @@
 * **2.1.0** 
   * Python 3.10 supported
   * Added github actions
+  * Updating patterns to libphonenumber v8.12.32
 * **2.0.14** Updating patterns to libphonenumber v8.12.31
 * **2.0.13** Updating patterns to libphonenumber v8.12.30
 * **2.0.12** Updating patterns to libphonenumber v8.12.29
