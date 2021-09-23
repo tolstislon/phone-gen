@@ -14,6 +14,7 @@ pep8-naming = "==0.12.1"
 twine = "==3.4.2"
 
 [packages]
+phone-gen = {editable = true, path = "."}
 
 [requires]
 python_version = "3.8"
