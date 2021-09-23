@@ -35,6 +35,6 @@ jobs:
       - name: Black
         run: |
           black --check phone_gen
-      - name: Test with pytest
-        run: |
-          pytest tests
+#      - name: Test with pytest
+#        run: |
+#          pytest tests
