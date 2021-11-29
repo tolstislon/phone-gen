@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install flake8 pep8-naming pytest black pytest-cov phonenumbers==8.12.37
+          python -m pip install flake8 pep8-naming pytest black pytest-cov phonenumbers==8.12.38
           python -m pip install -e .
       - name: Flake8
         run: |
