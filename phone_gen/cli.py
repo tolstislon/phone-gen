@@ -12,7 +12,7 @@ parser.add_argument(
     "-v",
     "--version",
     action="version",
-    version="%(prog)s {} ({})".format(__version__, PhoneNumber.info()),
+    version=f"%(prog)s {__version__} ({PhoneNumber.info()})",
 )
 parser.add_argument(
     "country",
@@ -43,7 +43,7 @@ parser.add_argument(
 )
 
 
-def main():
+def main() -> None:
     args = parser.parse_args()
     country = " ".join(args.country)
     try:
@@ -56,4 +56,4 @@ def main():
             number = phone_number.get_number(args.full)
         print(number)
     except (PhoneNumberNotFound, NumberGeneratorException) as error:
-        print("Error: {}".format(error.args[0]))
+        print(f"Error: {error.args[0]}")

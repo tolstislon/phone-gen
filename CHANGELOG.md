@@ -2,6 +2,7 @@
 
 ## Version 2:
 
+* **2.2.0a1** Removed python 3.5
 * **2.1.8** Updating patterns to libphonenumber v8.12.40
 * **2.1.7** Updating patterns to libphonenumber v8.12.39
 * **2.1.6** Updating patterns to libphonenumber v8.12.38
@@ -10,10 +11,10 @@
 * **2.1.3** Updating patterns to libphonenumber v8.12.35
 * **2.1.2** Updating patterns to libphonenumber v8.12.34
 * **2.1.1** Updating patterns to libphonenumber v8.12.33
-* **2.1.0** 
-  * Python 3.10 supported
-  * Added github actions
-  * Updating patterns to libphonenumber v8.12.32
+* **2.1.0**
+    * Python 3.10 supported
+    * Added github actions
+    * Updating patterns to libphonenumber v8.12.32
 * **2.0.14** Updating patterns to libphonenumber v8.12.31
 * **2.0.13** Updating patterns to libphonenumber v8.12.30
 * **2.0.12** Updating patterns to libphonenumber v8.12.29

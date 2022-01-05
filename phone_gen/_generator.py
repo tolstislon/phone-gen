@@ -26,7 +26,7 @@ COLON = ":"
 MINUS = "-"
 VBAR = "|"
 
-META_TOKENS = (
+META_TOKENS: Tuple[str, ...] = (
     LSQB,
     RSQB,
     LBRACE,
@@ -34,17 +34,17 @@ META_TOKENS = (
     LPAR,
     RPAR,
     VBAR,
-)  # type: Tuple[str, ...]
+)
 
-ALTERNATIVE_FILE = None
+ALTERNATIVE_FILE: Optional[dict] = None
 
 
-def load_alt_patters(patters: dict):
+def load_alt_patters(patters: dict) -> None:
     global ALTERNATIVE_FILE
     ALTERNATIVE_FILE = patters
 
 
-def clean_alt_patters():
+def clean_alt_patters() -> None:
     global ALTERNATIVE_FILE
     ALTERNATIVE_FILE = None
 
@@ -203,7 +203,7 @@ class NumberGenerator:
                 break
             if char and char in META_TOKENS and not self._last() == BSLASH:
                 raise NumberGeneratorSyntaxException(
-                    "Un-escaped character in class definition: {}".format(char)
+                    f"Un-escaped character in class definition: {char}"
                 )
             if not char:
                 break  # pragma: no cover
@@ -254,13 +254,13 @@ class NumberGenerator:
             else:
                 if char in META_TOKENS and not self._last() == BSLASH:
                     raise NumberGeneratorSyntaxException(
-                        "Un-escaped special character: {}".format(char)
+                        f"Un-escaped special character: {char}"
                     )
 
             if op and not left_operand:
                 if not seq:
                     raise NumberGeneratorSyntaxException(
-                        "Operator: {} with no left operand".format(op)
+                        f"Operator: {op} with no left operand"
                     )
                 left_operand = seq.pop()
             elif op and len(seq) >= 1 and left_operand:
@@ -274,7 +274,7 @@ class NumberGenerator:
         # check for syntax errors
         if op:
             raise NumberGeneratorSyntaxException(
-                "Operator: {} with no right operand".format(op)
+                f"Operator: {op} with no right operand"
             )
         if level > 0 and not sequence_closed:
             raise NumberGeneratorSyntaxException("Missing closing parenthesis")
@@ -285,18 +285,18 @@ class NumberGenerator:
 
 
 class PhoneNumber:
-    def __init__(self, value: str):
+    def __init__(self, value: str) -> None:
         code = self._preparation(value)
         self._country = self._find(code)
         if not self._country:
-            raise PhoneNumberNotFound('Not found country "{}"'.format(value))
+            raise PhoneNumberNotFound(f'Not found country "{value}"')
         self._national = NumberGenerator(self._country["pattern"])
         self._mobile = NumberGenerator(
             self._country.get("mobile", self._country["pattern"])
         )
 
     def __str__(self):
-        return "<PhoneNumber({})>".format(self.info())
+        return f"<PhoneNumber({self.info()})>"
 
     def _find(self, value: str):
         if isinstance(ALTERNATIVE_FILE, dict):
@@ -340,13 +340,13 @@ class PhoneNumber:
 
     def get_mobile(self, full: bool = True) -> str:
         number = self._mobile.render()
-        return "+{}{}".format(self._country["code"], number) if full else number
+        return f"+{self._country['code']}{number}" if full else number
 
     def get_national(self, full: bool = True) -> str:
         number = self._national.render()
-        # Could not find problem fixme
+        # Could not find problem
         if (
             number.startswith("49") and self._country["code"] == "49"
         ):  # pragma: no cover
             return self.get_national(full)
-        return "+{}{}".format(self._country["code"], number) if full else number
+        return f"+{self._country['code']}{number}" if full else number

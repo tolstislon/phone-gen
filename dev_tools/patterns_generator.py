@@ -41,14 +41,14 @@ class RegexCompiler:
     def __init__(self, pattern: str):
         pattern = pattern.replace("\n", "").replace(" ", "").replace("?:", "")
         pattern = pattern.replace(r"\d", r"[\d]").replace(",", ":")
-        self.pattern = "({})".format(pattern)
+        self.pattern = f"({pattern})"
 
     def _group(self, group: str) -> str:
         groups = findall(r"\((.*)\)", group)
         if groups:
             for i in groups:
                 group.replace(group, self._group(i))
-        return "|".join("({})".format(i) for i in group.split("|"))
+        return "|".join(f"({i})" for i in group.split("|"))
 
     def compile(self) -> str:
         return self.pattern.replace(self.pattern, self._group(self.pattern))
@@ -98,10 +98,8 @@ def parsing_version(tag: str) -> str:
         r".*(?P<major>\d{1,2})\.(?P<minor>\d{1,2})\.(?P<patch>\d{1,2}).*", tag
     )
     if version:
-        return "{}.{}.{}".format(
-            version.group("major"), version.group("minor"), version.group("patch")
-        )
-    raise ValueError("Invalid tag: {}".format(version))
+        return f"{version.group('major')}.{version.group('minor')}.{version.group('patch')}"
+    raise ValueError(f"Invalid tag: {version}")
 
 
 def main():
@@ -112,7 +110,7 @@ def main():
         with tempfile.TemporaryDirectory() as tmpdir:
             response = requests.get(SOURCE_TAG.format(tag=tag), stream=True)
             if not response.ok:
-                raise ValueError("Invalid tag: {}".format(tag))
+                raise ValueError(f"Invalid tag: {tag}")
             with tarfile.open(fileobj=io.BytesIO(response.content)) as tar_file:
                 archive_path = ARCHIVE_PATH.format(version=version, file=XML_FILE)
                 tar_file.extract(archive_path, tmpdir)
@@ -125,7 +123,7 @@ def main():
                 temp = TEMPLATE.format(
                     datetime=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
                     patterns=json.dumps(
-                        {"info": "libphonenumber {}".format(tag), "data": data},
+                        {"info": f"libphonenumber {tag}", "data": data},
                         indent=4,
                     ),
                     version=tag,

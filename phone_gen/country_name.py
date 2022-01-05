@@ -3,8 +3,9 @@
 Sources:
 * https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 """
+from typing import Dict
 
-COUNTRY_NAME = {
+COUNTRY_NAME: Dict[str, Dict[str, str]] = {
     "AFGHANISTAN": {"name": "Afghanistan", "code": "AF"},
     "ALANDISLANDS": {"name": "Åland Islands", "code": "AX"},
     "ANDORRA": {"name": "Andorra", "code": "AD"},
