@@ -19,11 +19,11 @@ setup(
     description="International phone number generation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version='2.1.8',
+    version='2.2.0a1',
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     include_package_data=True,
     keywords=["testing", "test-data", "phone-number", "phone"],
     classifiers=[

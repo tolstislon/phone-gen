@@ -5,8 +5,9 @@ ISO 3166-1 alpha-3
 Sources:
 * https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements
 """
+from typing import Dict
 
-ISO3 = {
+ISO3: Dict[str, Dict[str, str]] = {
     "TWN": {"code": "TW"},
     "AFG": {"code": "AF"},
     "ALB": {"code": "AL"},
