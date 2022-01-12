@@ -2,7 +2,9 @@
 
 ## Version 2:
 
-* **2.2.0a1** Removed python 3.5
+* **2.2.0**
+    * Removed python 3.5
+    * Updating patterns to libphonenumber v8.12.41
 * **2.1.8** Updating patterns to libphonenumber v8.12.40
 * **2.1.7** Updating patterns to libphonenumber v8.12.39
 * **2.1.6** Updating patterns to libphonenumber v8.12.38
