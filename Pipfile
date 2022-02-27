@@ -5,9 +5,9 @@ verify_ssl = true
 
 [dev-packages]
 requests = "==2.27.1"
-pytest = "==7.0.0"
+pytest = "==7.0.1"
 pytest-cov = "==3.0.0"
-phonenumbers = "==8.12.43"
+phonenumbers = "==8.12.44"
 black = "==22.1.0"
 flake8 = "==4.0.1"
 pep8-naming = "==0.12.1"
