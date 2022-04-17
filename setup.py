@@ -3,11 +3,8 @@ from pathlib import Path
 from setuptools import find_packages, setup
 
 readme = Path(".", "README.md").absolute()
-changelog = Path(".", "CHANGELOG.md").absolute()
 with readme.open("r", encoding="utf-8") as file:
     long_description = file.read()
-with changelog.open("r", encoding="utf-8") as file:
-    long_description += file.read()
 
 setup(
     name="phone_gen",
@@ -25,7 +22,7 @@ setup(
     },
     python_requires=">=3.6",
     include_package_data=True,
-    keywords=["testing", "test-data", "phone-number", "phone"],
+    keywords=["testing", "test-data", "phone-number", "phone", "test-data-generator"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",

@@ -127,6 +127,10 @@ Resources
 * [Google's libphonenumber](https://github.com/google/libphonenumber)
 * Modified [strgen](https://github.com/paul-wolf/strgen) library
 
+Changelog
+----
+* [CHANGELOG.md](https://github.com/tolstislon/phone-gen/blob/master/CHANGELOG.md)
+
 Contributing
 ----
 Contributions are very welcome.
