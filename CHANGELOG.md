@@ -2,6 +2,7 @@
 
 ## Version 2:
 
+* **2.2.7** Updating patterns to libphonenumber v8.12.48
 * **2.2.6**
     * Updated setup.py
     * Updating patterns to libphonenumber v8.12.47
