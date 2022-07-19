@@ -20,6 +20,7 @@ def load_fixture(request):
     clean_alt_patters()
 
 
+@pytest.mark.phonenumbers
 def test_load_alt_patterns(load_fixture):
     phone_number = PhoneNumber(load_fixture)
     assert phone_number.get_national() == '+0{}'.format('2' * 7)
