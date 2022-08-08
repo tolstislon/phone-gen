@@ -16,7 +16,7 @@ setup(
     description="International phone number generation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version='2.2.11',
+    version='2.2.12',
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },
@@ -34,6 +34,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Testing",
