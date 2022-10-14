@@ -16,7 +16,7 @@ setup(
     description="International phone number generation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version='2.2.15',
+    version='2.2.16',
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },
