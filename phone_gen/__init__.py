@@ -28,10 +28,10 @@ Resources:
 """
 
 from ._generator import (
+    clean_alt_patters,
+    load_alt_patters,
     PhoneNumber,
     PhoneNumberNotFound,
-    load_alt_patters,
-    clean_alt_patters,
 )
 
 try:
@@ -40,9 +40,9 @@ except ImportError:  # pragma: no cover
     __version__ = "unknown"
 
 __all__ = [
-    "PhoneNumber",
     "__version__",
-    "PhoneNumberNotFound",
-    "load_alt_patters",
     "clean_alt_patters",
+    "load_alt_patters",
+    "PhoneNumber",
+    "PhoneNumberNotFound",
 ]
