@@ -137,7 +137,7 @@ Contributions are very welcome.
 
 ##### How to build a version with libphonenumber below v8.12.3
 
-Need Python 3.6 or more.
+Need Python 3.8 or more.
 
 1. `git pull https://github.com/tolstislon/phone-gen.git`
 2. `cd phone-gen`
