@@ -105,7 +105,7 @@ def parsing_xml(file: Path) -> Dict[str, Dict[str, str]]:
 
 def parsing_version(tag: str) -> str:
     if version := match(r".*(?P<major>\d{1,2})\.(?P<minor>\d{1,2})\.(?P<patch>\d{1,2}).*", tag):
-        return f"{version.group('major')}.{version.group('minor')}.{version.group('patch')}"
+        return "{major}.{minor}.{patch}".format_map(version.groupdict())
     raise ValueError(f"Invalid tag: {version}")
 
 
