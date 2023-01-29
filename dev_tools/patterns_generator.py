@@ -7,22 +7,13 @@ import xml.etree.ElementTree as ElementTree
 from datetime import datetime
 from pathlib import Path
 from re import findall, match
-from typing import Dict, Generator, Tuple
+from typing import Dict, Generator, Tuple, Final
 
 import requests
 
-argparser = argparse.ArgumentParser(
-    prog="pattern_generator",
-    add_help=True,
-    description="Pattern generator to phone-gen",
-)
-argparser.add_argument(
-    "-t", "--tag", dest="tag", help="libphonenumber tag", default="latest"
-)
+root: Final[Path] = Path(__file__).absolute().parent.parent
 
-root = Path(__file__).absolute().parent.parent
-
-TEMPLATE = """# -*- coding: utf-8 -*-
+TEMPLATE: Final[str] = """# -*- coding: utf-8 -*-
 \"""
 Auto-generated file {datetime} UTC
 Resource: https://github.com/google/libphonenumber {version}
@@ -32,16 +23,40 @@ Resource: https://github.com/google/libphonenumber {version}
 PATTERNS = {patterns}
 
 """
-XML_FILE = "PhoneNumberMetadata.xml"
-ARCHIVE_PATH = "libphonenumber-{version}/resources/{file}"
-SOURCE_TAG = "https://github.com/google/libphonenumber/archive/{tag}.tar.gz"
+XML_FILE: Final[str] = "PhoneNumberMetadata.xml"
+ARCHIVE_PATH: Final[str] = "libphonenumber-{version}/resources/{file}"
+SOURCE_TAG: Final[str] = "https://github.com/google/libphonenumber/archive/{tag}.tar.gz"
+DATETIME_FORMAT: Final[str] = "%Y-%m-%d %H:%M:%S"
+
+
+def arg_parser() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="pattern_generator",
+        add_help=True,
+        description="Pattern generator to phone-gen",
+    )
+    parser.add_argument(
+        "-t", "--tag", dest="tag", help="libphonenumber tag", default="latest"
+    )
+    return parser.parse_args()
 
 
 class RegexCompiler:
+    _replace_values: Tuple[Tuple[str, str], ...] = (
+        ("\n", ""),
+        (" ", ""),
+        ("?:", ""),
+        (r"\d", r"[\d]"),
+        (",", ":"),
+    )
+
     def __init__(self, pattern: str):
-        pattern = pattern.replace("\n", "").replace(" ", "").replace("?:", "")
-        pattern = pattern.replace(r"\d", r"[\d]").replace(",", ":")
-        self.pattern = f"({pattern})"
+        self.pattern = f"({self._replace(pattern)})"
+
+    def _replace(self, pattern: str) -> str:
+        for i in self._replace_values:
+            pattern = pattern.replace(*i)
+        return pattern
 
     def _group(self, group: str) -> str:
         groups = findall(r"\((.*)\)", group)
@@ -64,20 +79,15 @@ class Parser:
     def render(self) -> Generator[Tuple[str, Dict[str, str]], None, None]:
         for territory in self.root.iter("territory"):
             attrs = territory.attrib
-            code = attrs.get("id", "1")
-            if code.isdigit():
+            if (code := attrs.get("id", "1")).isdigit():
                 continue
             value = {"code": attrs.get("countryCode", "")}
             for fixed_line in territory.iter(self.line_tag):
                 for national_number_pattern in fixed_line.iter(self.pattern_tag):
-                    value["pattern"] = RegexCompiler(
-                        national_number_pattern.text
-                    ).compile()
+                    value["pattern"] = RegexCompiler(national_number_pattern.text).compile()
             for mobile_tag in territory.iter(self.mobile_tag):
                 for national_number_pattern in mobile_tag.iter(self.pattern_tag):
-                    value["mobile"] = RegexCompiler(
-                        national_number_pattern.text
-                    ).compile()
+                    value["mobile"] = RegexCompiler(national_number_pattern.text).compile()
 
             yield code, value
 
@@ -87,25 +97,20 @@ def get_latest() -> str:
     return response.url.split("/")[-1]
 
 
-def parsing_xml(file: Path):
+def parsing_xml(file: Path) -> Dict[str, Dict[str, str]]:
     with file.open("rb") as _file:
         parser = Parser(_file.read().decode())
         return {code: value for code, value in parser.render()}
 
 
 def parsing_version(tag: str) -> str:
-    version = match(
-        r".*(?P<major>\d{1,2})\.(?P<minor>\d{1,2})\.(?P<patch>\d{1,2}).*", tag
-    )
-    if version:
-        return f"{version.group('major')}.{version.group('minor')}.{version.group('patch')}"
+    if version := match(r".*(?P<major>\d{1,2})\.(?P<minor>\d{1,2})\.(?P<patch>\d{1,2}).*", tag):
+        return "{major}.{minor}.{patch}".format_map(version.groupdict())
     raise ValueError(f"Invalid tag: {version}")
 
 
-def main():
-    args = argparser.parse_args()
-    tag = get_latest() if args.tag == "latest" else args.tag
-    if tag:
+def main(patterns_tag: str) -> None:
+    if tag := get_latest() if patterns_tag == "latest" else patterns_tag:
         version = parsing_version(tag)
         with tempfile.TemporaryDirectory() as tmpdir:
             response = requests.get(SOURCE_TAG.format(tag=tag), stream=True)
@@ -118,18 +123,16 @@ def main():
             if not xml_file.exists():
                 raise FileNotFoundError(xml_file.absolute())
             data = parsing_xml(xml_file)
-            patterns_path = root.joinpath("phone_gen", "patterns.py")
+            patterns_path = root / "phone_gen" / "patterns.py"
             with patterns_path.open("wb") as _file:
                 temp = TEMPLATE.format(
-                    datetime=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
-                    patterns=json.dumps(
-                        {"info": f"libphonenumber {tag}", "data": data},
-                        indent=4,
-                    ),
+                    datetime=datetime.utcnow().strftime(DATETIME_FORMAT),
+                    patterns=json.dumps({"info": f"libphonenumber {tag}", "data": data}, indent=4),
                     version=tag,
                 )
                 _file.write(temp.encode())
 
 
 if __name__ == "__main__":
-    main()
+    args = arg_parser()
+    main(patterns_tag=args.tag)
