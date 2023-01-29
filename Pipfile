@@ -4,17 +4,17 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-requests = "==2.28.1"
-pytest = "==7.2.0"
-pytest-cov = "==4.0.0"
-phonenumbers = "==8.13.4"
 black = "==22.12.0"
 flake8 = "==6.0.0"
 pep8-naming = "==0.13.3"
+phonenumbers = "==8.13.5"
+pytest = "==7.2.1"
+pytest-cov = "==4.0.0"
+requests = "==2.28.2"
 twine = "==4.0.2"
 
 [packages]
 phone-gen = {editable = true, path = "."}
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
