@@ -2,6 +2,7 @@
 
 ## Version 2:
 
+* **2.2.24** Updating patterns to libphonenumber v8.13.7
 * **2.2.23** Updating patterns to libphonenumber v8.13.6
 * **2.2.22** Updating patterns to libphonenumber v8.13.5
 * **2.2.21** Updating patterns to libphonenumber v8.13.4
