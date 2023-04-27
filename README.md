@@ -129,20 +129,12 @@ Resources
 
 Changelog
 ----
+
 * [CHANGELOG.md](https://github.com/tolstislon/phone-gen/blob/master/CHANGELOG.md)
 
 Contributing
 ----
 Contributions are very welcome.
 
-##### How to build a version with libphonenumber below v8.12.3
-
-Need Python 3.8 or more.
-
-1. `git pull https://github.com/tolstislon/phone-gen.git`
-2. `cd phone-gen`
-3. `pip install requests`
-4. `python dev_tools/patterns_generator.py -t {Desired Tag}`
-5. `python setup.py install`
 
 
