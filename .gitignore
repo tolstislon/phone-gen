@@ -135,3 +135,4 @@ dmypy.json
 Pipfile.lock
 pyproject.toml
 build.sh
+phone_gen/__version__.py
