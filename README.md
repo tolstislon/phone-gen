@@ -1,13 +1,14 @@
 # Phone Gen
 
 [![PyPI](https://img.shields.io/pypi/v/phone-gen?color=%2301a001&label=pypi&logo=version)](https://pypi.org/project/phone-gen/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
-[![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://pypi.org/project/phone-gen/)
 [![Downloads](https://pepy.tech/badge/phone-gen)](https://pepy.tech/project/phone-gen)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://github.com/tolstislon/phone-gen)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 International phone number generation
 
-This module was created exclusively for generating test data
+**This module was created exclusively for generating test data**
 
 
 Installation
@@ -134,7 +135,38 @@ Changelog
 
 Contributing
 ----
-Contributions are very welcome.
 
+#### Contributions are very welcome.
 
+You might want to:
 
+* Fix spelling errors
+* Improve documentation
+* Add tests for untested code
+* Add new features
+* Fix bugs
+
+#### Getting started
+
+* python 3.11
+* pipenv 2022.12.19+
+
+1. Clone the repository
+    ```bash
+    git clone https://github.com/tolstislon/phone-gen.git
+    cd phone-gen
+   ```
+2. Install dev dependencies
+    ```bash
+    pipenv install --dev
+    pipenv shell
+   ```
+3. Run the linters
+    ```bash
+    black phone_gen/ 
+    flake8 phone_gen/
+   ```
+4. Run the tests
+    ```bash
+    pytest tests/
+   ```
