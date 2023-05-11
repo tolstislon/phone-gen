@@ -3,7 +3,9 @@
 [![PyPI](https://img.shields.io/pypi/v/phone-gen?color=%2301a001&label=pypi&logo=version)](https://pypi.org/project/phone-gen/)
 [![Downloads](https://pepy.tech/badge/phone-gen)](https://pepy.tech/project/phone-gen)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
-[![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://github.com/tolstislon/phone-gen)
+[![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://github.com/tolstislon/phone-gen)  
+
+[![Code style: black](https://github.com/tolstislon/phone-gen/workflows/tests/badge.svg)](https://github.com/tolstislon/phone-gen/actions/workflows/python-package.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 International phone number generation
