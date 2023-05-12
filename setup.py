@@ -21,7 +21,7 @@ setup(
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     include_package_data=True,
     keywords=["testing", "test-data", "phone-number", "phone", "test-data-generator"],
     classifiers=[
@@ -30,7 +30,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
