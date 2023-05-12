@@ -2,7 +2,8 @@ import random
 import re
 import string
 from abc import ABCMeta, abstractmethod
-from typing import List, Optional, Tuple
+from dataclasses import dataclass
+from typing import List, Optional, Tuple, Final
 
 from .alt_patterns import ALT_PATTERNS
 from .country_name import COUNTRY_NAME
@@ -15,18 +16,18 @@ CHOICE = SYSTEM_RANDOM.choice
 SAMPLE = SYSTEM_RANDOM.sample
 SHUFFLE = SYSTEM_RANDOM.shuffle
 
-BSLASH = "\\"
-LBRACE = "{"
-RBRACE = "}"
-LSQB = "["
-RSQB = "]"
-LPAR = "("
-RPAR = ")"
-COLON = ":"
-MINUS = "-"
-VBAR = "|"
+BSLASH: Final[str] = "\\"
+LBRACE: Final[str] = "{"
+RBRACE: Final[str] = "}"
+LSQB: Final[str] = "["
+RSQB: Final[str] = "]"
+LPAR: Final[str] = "("
+RPAR: Final[str] = ")"
+COLON: Final[str] = ":"
+MINUS: Final[str] = "-"
+VBAR: Final[str] = "|"
 
-META_TOKENS: Tuple[str, ...] = (
+META_TOKENS: Final[Tuple[str, ...]] = (
     LSQB,
     RSQB,
     LBRACE,
@@ -36,17 +37,16 @@ META_TOKENS: Tuple[str, ...] = (
     VBAR,
 )
 
-ALTERNATIVE_FILE: Optional[dict] = None
-
-
-def load_alt_patters(patters: dict) -> None:
-    global ALTERNATIVE_FILE
-    ALTERNATIVE_FILE = patters
+ALTERNATIVE_FILE: dict = {}
 
 
 def clean_alt_patters() -> None:
-    global ALTERNATIVE_FILE
-    ALTERNATIVE_FILE = None
+    ALTERNATIVE_FILE.clear()
+
+
+def load_alt_patters(patters: dict) -> None:
+    clean_alt_patters()
+    ALTERNATIVE_FILE.update(patters)
 
 
 class NumberGeneratorException(Exception):
@@ -69,34 +69,35 @@ class StringNode(metaclass=ABCMeta):
         ...  # pragma: no cover
 
 
+@dataclass(frozen=True, kw_only=True)
 class Sequence:
     """Render a sequence of nodes from the template."""
 
-    def __init__(self, seq: List[StringNode]):
-        self.seq = seq
+    seq: List[StringNode]
 
     def render(self) -> str:
         return "".join(i.render() for i in self.seq)
 
 
+@dataclass(frozen=True, kw_only=True)
 class SequenceOR(Sequence):
     def render(self):
         return self.seq[RANDINT(0, len(self.seq) - 1)].render()
 
 
+@dataclass(repr=True, kw_only=True)
 class Literal(StringNode):
-    def __init__(self, chars: str):
-        self.literal = chars
+    chars: str
 
     def render(self) -> str:
-        return self.literal
+        return self.chars
 
 
+@dataclass(repr=True, kw_only=True)
 class CharacterSet(StringNode):
-    def __init__(self, chars: str, start: int, cnt: int):
-        self.chars = chars
-        self.start = start
-        self.cnt = cnt
+    chars: str
+    start: int
+    cnt: int
 
     def render(self) -> str:
         cnt = RANDINT(self.start, self.cnt) if self.start > -1 else self.cnt
@@ -207,7 +208,7 @@ class NumberGenerator:
                 )
             if not char:
                 break  # pragma: no cover
-        return CharacterSet(chars, start, cnt)
+        return CharacterSet(chars=chars, start=start, cnt=cnt)
 
     def _get_literal(self) -> Literal:
         chars = ""
@@ -225,7 +226,7 @@ class NumberGenerator:
             if self._lookahead() and self._lookahead() in META_TOKENS:
                 break
             char = self._next()
-        return Literal(chars)
+        return Literal(chars=chars)
 
     def _get_sequence(self, level: int = 0) -> Sequence:
         seq = []
@@ -236,23 +237,24 @@ class NumberGenerator:
             char = self._next()
             if not char:
                 break
+            is_last_bslash = self._last() == BSLASH
             if char and char not in META_TOKENS:
                 seq.append(self._get_literal())
-            elif char == LSQB and not self._last() == BSLASH:
+            elif char == LSQB and not is_last_bslash:
                 seq.append(self._get_character_set())
-            elif char == LPAR and not self._last() == BSLASH:
+            elif char == LPAR and not is_last_bslash:
                 seq.append(self._get_sequence(level + 1))
-            elif char == RPAR and not self._last() == BSLASH:
+            elif char == RPAR and not is_last_bslash:
                 # end of this sequence
                 if level == 0:
                     # there should be no parens here
                     raise NumberGeneratorSyntaxException("Extra closing parenthesis")
                 sequence_closed = True
                 break
-            elif char == VBAR and not self._last() == BSLASH:
+            elif char == VBAR and not is_last_bslash:
                 op = char
             else:
-                if char in META_TOKENS and not self._last() == BSLASH:
+                if char in META_TOKENS and not is_last_bslash:
                     raise NumberGeneratorSyntaxException(
                         f"Un-escaped special character: {char}"
                     )
@@ -267,7 +269,7 @@ class NumberGenerator:
                 right_operand = seq.pop()
 
                 if op == VBAR:
-                    seq.append(SequenceOR([left_operand, right_operand]))
+                    seq.append(SequenceOR(seq=[left_operand, right_operand]))
                 op = ""
                 left_operand = None
 
@@ -278,7 +280,7 @@ class NumberGenerator:
             )
         if level > 0 and not sequence_closed:
             raise NumberGeneratorSyntaxException("Missing closing parenthesis")
-        return Sequence(seq)
+        return Sequence(seq=seq)
 
     def render(self) -> str:
         return self._seq.render()
@@ -290,19 +292,14 @@ class PhoneNumber:
         self._country = self._find(code)
         if not self._country:
             raise PhoneNumberNotFound(f'Not found country "{value}"')
-        self._national = NumberGenerator(self._country["pattern"])
-        self._mobile = NumberGenerator(
-            self._country.get("mobile", self._country["pattern"])
-        )
 
     def __str__(self):
-        return f"<PhoneNumber({self.info()})>"
+        return f"<{type(self).__name__}({self.info()})>"
 
     def _find(self, value: str):
-        if isinstance(ALTERNATIVE_FILE, dict):
-            country = ALTERNATIVE_FILE.get(value)
-            if country:
-                return country
+        country = ALTERNATIVE_FILE.get(value)
+        if country:
+            return country
 
         country = PATTERNS["data"].get(value)
         if country:
@@ -334,16 +331,16 @@ class PhoneNumber:
         return self._country["code"]
 
     def get_number(self, full: bool = True) -> str:
-        if RANDINT(1, 2) == 1:
-            return self.get_national(full=full)
-        return self.get_mobile(full=full)
+        return self.get_national(full) if RANDINT(0, 1) else self.get_mobile(full)
 
     def get_mobile(self, full: bool = True) -> str:
-        number = self._mobile.render()
+        number = NumberGenerator(
+            pattern=self._country.get("mobile", self._country["pattern"])
+        ).render()
         return f"+{self._country['code']}{number}" if full else number
 
     def get_national(self, full: bool = True) -> str:
-        number = self._national.render()
+        number = NumberGenerator(pattern=self._country["pattern"]).render()
         # Could not find problem
         if (
             number.startswith("49") and self._country["code"] == "49"
