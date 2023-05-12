@@ -3,7 +3,7 @@ import re
 import string
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import List, Optional, Tuple, Final
+from typing import List, Optional, Tuple
 
 from .alt_patterns import ALT_PATTERNS
 from .country_name import COUNTRY_NAME
@@ -16,18 +16,18 @@ CHOICE = SYSTEM_RANDOM.choice
 SAMPLE = SYSTEM_RANDOM.sample
 SHUFFLE = SYSTEM_RANDOM.shuffle
 
-BSLASH: Final[str] = "\\"
-LBRACE: Final[str] = "{"
-RBRACE: Final[str] = "}"
-LSQB: Final[str] = "["
-RSQB: Final[str] = "]"
-LPAR: Final[str] = "("
-RPAR: Final[str] = ")"
-COLON: Final[str] = ":"
-MINUS: Final[str] = "-"
-VBAR: Final[str] = "|"
+BSLASH = "\\"
+LBRACE = "{"
+RBRACE = "}"
+LSQB = "["
+RSQB = "]"
+LPAR = "("
+RPAR = ")"
+COLON = ":"
+MINUS = "-"
+VBAR = "|"
 
-META_TOKENS: Final[Tuple[str, ...]] = (
+META_TOKENS: Tuple[str, ...] = (
     LSQB,
     RSQB,
     LBRACE,
