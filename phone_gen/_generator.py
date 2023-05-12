@@ -69,7 +69,7 @@ class StringNode(metaclass=ABCMeta):
         ...  # pragma: no cover
 
 
-@dataclass(frozen=True, kw_only=True)
+@dataclass(frozen=True)
 class Sequence:
     """Render a sequence of nodes from the template."""
 
@@ -79,13 +79,13 @@ class Sequence:
         return "".join(i.render() for i in self.seq)
 
 
-@dataclass(frozen=True, kw_only=True)
+@dataclass(frozen=True)
 class SequenceOR(Sequence):
     def render(self):
         return self.seq[RANDINT(0, len(self.seq) - 1)].render()
 
 
-@dataclass(repr=True, kw_only=True)
+@dataclass(repr=True)
 class Literal(StringNode):
     chars: str
 
@@ -93,7 +93,7 @@ class Literal(StringNode):
         return self.chars
 
 
-@dataclass(repr=True, kw_only=True)
+@dataclass(repr=True)
 class CharacterSet(StringNode):
     chars: str
     start: int
