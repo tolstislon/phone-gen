@@ -109,7 +109,7 @@ def parsing_version(tag: str) -> str:
     raise ValueError(f"Invalid tag: {version}")
 
 
-def main(patterns_tag: str) -> None:
+def main(patterns_tag: str) -> str:
     if tag := get_latest() if patterns_tag == "latest" else patterns_tag:
         version = parsing_version(tag)
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -131,6 +131,7 @@ def main(patterns_tag: str) -> None:
                     version=tag,
                 )
                 _file.write(temp.encode())
+        return version
 
 
 if __name__ == "__main__":
