@@ -133,7 +133,7 @@ Resources
 Changelog
 ----
 
-* [CHANGELOG.md](https://github.com/tolstislon/phone-gen/blob/master/CHANGELOG.md)
+* [Releases](https://github.com/tolstislon/phone-gen/releases)
 
 Contributing
 ----
