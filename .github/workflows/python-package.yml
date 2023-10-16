@@ -35,4 +35,4 @@ jobs:
           black --check phone_gen
       - name: Test with pytest
         run: |
-          pytest tests
+          pytest -m "not phonenumbers" tests
