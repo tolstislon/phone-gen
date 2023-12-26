@@ -3,7 +3,7 @@ import re
 import string
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Dict, Final
 
 from .alt_patterns import ALT_PATTERNS
 from .country_name import COUNTRY_NAME
@@ -16,16 +16,16 @@ CHOICE = SYSTEM_RANDOM.choice
 SAMPLE = SYSTEM_RANDOM.sample
 SHUFFLE = SYSTEM_RANDOM.shuffle
 
-BSLASH = "\\"
-LBRACE = "{"
-RBRACE = "}"
-LSQB = "["
-RSQB = "]"
-LPAR = "("
-RPAR = ")"
-COLON = ":"
-MINUS = "-"
-VBAR = "|"
+BSLASH: Final[str] = "\\"
+LBRACE: Final[str] = "{"
+RBRACE: Final[str] = "}"
+LSQB: Final[str] = "["
+RSQB: Final[str] = "]"
+LPAR: Final[str] = "("
+RPAR: Final[str] = ")"
+COLON: Final[str] = ":"
+MINUS: Final[str] = "-"
+VBAR: Final[str] = "|"
 
 META_TOKENS: Tuple[str, ...] = (
     LSQB,
@@ -296,26 +296,18 @@ class PhoneNumber:
     def __str__(self):
         return f"<{type(self).__name__}({self.info()})>"
 
-    def _find(self, value: str):
-        country = ALTERNATIVE_FILE.get(value)
-        if country:
+    def _find(self, value: str) -> Optional[Dict[str, str]]:
+        if country := ALTERNATIVE_FILE.get(value) or PATTERNS["data"].get(value):
             return country
-
-        country = PATTERNS["data"].get(value)
-        if country:
-            return country
-        alt_country = ALT_PATTERNS.get(value)
-        if alt_country:
+        if alt_country := ALT_PATTERNS.get(value):
             return (
                 alt_country
                 if "pattern" in alt_country
                 else self._find(alt_country["ref"])
             )
-        country_name = COUNTRY_NAME.get(value)
-        if country_name:
+        if country_name := COUNTRY_NAME.get(value):
             return self._find(country_name["code"])
-        ico3 = ISO3.get(value)
-        if ico3:
+        if ico3 := ISO3.get(value):
             return self._find(ico3["code"])
         return None
 
