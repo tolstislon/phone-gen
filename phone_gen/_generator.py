@@ -65,8 +65,7 @@ class StringNode(metaclass=ABCMeta):
     """The abstract class for all nodes"""
 
     @abstractmethod
-    def render(self):
-        ...  # pragma: no cover
+    def render(self): ...  # pragma: no cover
 
 
 @dataclass(frozen=True)
