@@ -7,10 +7,10 @@ verify_ssl = true
 black = "==24.4.2"
 flake8 = "==7.0.0"
 pep8-naming = "==0.14.1"
-phonenumbers = "==8.13.37"
-pytest = "==8.2.0"
+phonenumbers = "==8.13.38"
+pytest = "==8.2.2"
 pytest-cov = "==5.0.0"
-requests = "==2.31.0"
+requests = "==2.32.3"
 
 [packages]
 phone-gen = {editable = true, path = "."}
