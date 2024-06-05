@@ -21,7 +21,7 @@ setup(
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     include_package_data=True,
     keywords=["testing", "test-data", "phone-number", "phone", "test-data-generator"],
     classifiers=[
