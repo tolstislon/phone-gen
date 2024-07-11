@@ -5,17 +5,20 @@ from random import choice, randint
 from re import error, Pattern
 from typing import Any, Dict, Callable, Sequence, Union
 
-from re._parser import SubPattern
-
-
-class PatternError(Exception):
-    """Not found country"""
-
+try:
+    from re._parser import SubPattern
+except ImportError:  # pragma: no cover
+    from re import Pattern as SubPattern
 
 try:
     import re._parser as parse
 except ImportError:  # pragma: no cover
     import sre_parse as parse
+
+
+class PatternError(Exception):
+    """Not found country"""
+
 
 _CATEGORIES: Dict[str, Callable[[], str]] = {
     "category_digit": lambda: string.digits,
