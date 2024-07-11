@@ -32,7 +32,7 @@ jobs:
           flake8 phone_gen
       - name: Black
         run: |
-          black --check phone_gen
+          black --line-length=120 --check phone_gen
       - name: Test with pytest
         run: |
           pytest tests

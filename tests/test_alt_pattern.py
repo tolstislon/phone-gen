@@ -6,10 +6,10 @@ from phone_gen import PhoneNumber
 
 
 @pytest.mark.phonenumbers
-@pytest.mark.parametrize('count', range(5))
-@pytest.mark.parametrize('code, ref', [
-    (key, value['ref']) for key, value in ALT_PATTERNS.items() if 'pattern' in value and 'ref' in value
-])
+@pytest.mark.parametrize("count", range(5))
+@pytest.mark.parametrize(
+    "code, ref", [(key, value["ref"]) for key, value in ALT_PATTERNS.items() if "pattern" in value and "ref" in value]
+)
 def test_alt_pattern(code, ref, count):
     number = PhoneNumber(code).get_number()
     num_obj = phonenumbers.parse(number, code)
@@ -17,10 +17,11 @@ def test_alt_pattern(code, ref, count):
 
 
 @pytest.mark.phonenumbers
-@pytest.mark.parametrize('count', range(5))
-@pytest.mark.parametrize('code, ref', [
-    (key, value['ref']) for key, value in ALT_PATTERNS.items() if 'pattern' not in value and 'ref' in value
-])
+@pytest.mark.parametrize("count", range(5))
+@pytest.mark.parametrize(
+    "code, ref",
+    [(key, value["ref"]) for key, value in ALT_PATTERNS.items() if "pattern" not in value and "ref" in value],
+)
 def test_ref(code, ref, count):
     number = PhoneNumber(code).get_number()
     num_obj = phonenumbers.parse(number, code)

@@ -1,7 +1,7 @@
 import argparse
 
 from . import __version__
-from ._generator import NumberGeneratorException, PhoneNumber, PhoneNumberNotFound
+from ._phone_number import PhoneNumber, PhoneNumberNotFound
 
 parser = argparse.ArgumentParser(
     prog="phone-gen",
@@ -55,5 +55,5 @@ def main() -> None:
         else:
             number = phone_number.get_number(args.full)
         print(number)
-    except (PhoneNumberNotFound, NumberGeneratorException) as error:
+    except PhoneNumberNotFound as error:
         print(f"Error: {error.args[0]}")

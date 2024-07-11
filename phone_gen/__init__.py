@@ -27,7 +27,7 @@ Resources:
     * Modified strgen https://github.com/paul-wolf/strgen
 """
 
-from ._generator import (
+from ._phone_number import (
     clean_alt_patters,
     load_alt_patters,
     PhoneNumber,
