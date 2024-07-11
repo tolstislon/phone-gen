@@ -8,8 +8,8 @@ from phone_gen.patterns import PATTERNS
 
 
 @pytest.mark.phonenumbers
-@pytest.mark.parametrize('count', range(15))
-@pytest.mark.parametrize('country', PATTERNS['data'].keys())
+@pytest.mark.parametrize("count", range(15))
+@pytest.mark.parametrize("country", PATTERNS["data"].keys())
 def test_patterns(country, count):
     phone_number = PhoneNumber(country)
     number = phone_number.get_number()
@@ -18,8 +18,8 @@ def test_patterns(country, count):
 
 
 @pytest.mark.phonenumbers
-@pytest.mark.parametrize('count', range(15))
-@pytest.mark.parametrize('country', PATTERNS['data'].keys())
+@pytest.mark.parametrize("count", range(15))
+@pytest.mark.parametrize("country", PATTERNS["data"].keys())
 def test_national(country, count):
     phone_number = PhoneNumber(country)
     number = phone_number.get_national()
@@ -28,8 +28,8 @@ def test_national(country, count):
 
 
 @pytest.mark.phonenumbers
-@pytest.mark.parametrize('count', range(15))
-@pytest.mark.parametrize('country', PATTERNS['data'].keys())
+@pytest.mark.parametrize("count", range(15))
+@pytest.mark.parametrize("country", PATTERNS["data"].keys())
 def test_mobile(country, count):
     phone_number = PhoneNumber(country)
     number = phone_number.get_mobile()
@@ -38,21 +38,21 @@ def test_mobile(country, count):
 
 
 def test_info():
-    phone_number = PhoneNumber('gb')
-    assert phone_number.info().startswith('libphonenumber')
+    phone_number = PhoneNumber("gb")
+    assert phone_number.info().startswith("libphonenumber")
 
 
 def test_get_code():
-    country = random.choice(tuple(PATTERNS['data'].keys()))
+    country = random.choice(tuple(PATTERNS["data"].keys()))
     phone_number = PhoneNumber(country)
-    assert phone_number.get_code() == PATTERNS['data'][country]['code']
+    assert phone_number.get_code() == PATTERNS["data"][country]["code"]
 
 
 def test_invalid_country():
     with pytest.raises(PhoneNumberNotFound):
-        PhoneNumber('qwe')
+        PhoneNumber("qwe")
 
 
 def test_str_method():
-    phone_number = PhoneNumber('GB')
-    assert str(phone_number).startswith('<PhoneNumber(libphonenumber')
+    phone_number = PhoneNumber("GB")
+    assert str(phone_number).startswith("<PhoneNumber(libphonenumber")

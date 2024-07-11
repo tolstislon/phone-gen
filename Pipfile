@@ -13,7 +13,11 @@ pytest-cov = "==5.0.0"
 requests = "==2.32.3"
 
 [packages]
-phone-gen = {editable = true, path = "."}
+phone-gen = { editable = true, path = "." }
 
 [requires]
 python_version = "3.11"
+
+[scripts]
+tests = "pytest ./tests"
+black = "black --line-length=120 phone_gen"

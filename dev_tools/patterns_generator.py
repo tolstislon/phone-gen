@@ -1,12 +1,13 @@
 import argparse
 import io
 import json
+import re
 import tarfile
 import tempfile
 import xml.etree.ElementTree as ElementTree
 from datetime import datetime
 from pathlib import Path
-from re import findall, match
+from re import match
 from typing import Dict, Generator, Tuple, Final
 
 import requests
@@ -15,7 +16,7 @@ root: Final[Path] = Path(__file__).absolute().parent.parent
 
 TEMPLATE: Final[str] = """# -*- coding: utf-8 -*-
 \"""
-Auto-generated file {datetime} UTC
+Auto-generated file {datetime} UTC (v3)
 Resource: https://github.com/google/libphonenumber {version}
 \"""
 
@@ -35,38 +36,8 @@ def arg_parser() -> argparse.Namespace:
         add_help=True,
         description="Pattern generator to phone-gen",
     )
-    parser.add_argument(
-        "-t", "--tag", dest="tag", help="libphonenumber tag", default="latest"
-    )
+    parser.add_argument("-t", "--tag", dest="tag", help="libphonenumber tag", default="latest")
     return parser.parse_args()
-
-
-class RegexCompiler:
-    _replace_values: Tuple[Tuple[str, str], ...] = (
-        ("\n", ""),
-        (" ", ""),
-        ("?:", ""),
-        (r"\d", r"[\d]"),
-        (",", ":"),
-    )
-
-    def __init__(self, pattern: str):
-        self.pattern = f"({self._replace(pattern)})"
-
-    def _replace(self, pattern: str) -> str:
-        for i in self._replace_values:
-            pattern = pattern.replace(*i)
-        return pattern
-
-    def _group(self, group: str) -> str:
-        groups = findall(r"\((.*)\)", group)
-        if groups:
-            for i in groups:
-                group.replace(group, self._group(i))
-        return "|".join(f"({i})" for i in group.split("|"))
-
-    def compile(self) -> str:
-        return self.pattern.replace(self.pattern, self._group(self.pattern))
 
 
 class Parser:
@@ -74,7 +45,7 @@ class Parser:
         self.root = ElementTree.fromstring(source)
         self.line_tag = "fixedLine"
         self.pattern_tag = "nationalNumberPattern"
-        self.mobile_tag = 'mobile'
+        self.mobile_tag = "mobile"
 
     def render(self) -> Generator[Tuple[str, Dict[str, str]], None, None]:
         for territory in self.root.iter("territory"):
@@ -84,10 +55,10 @@ class Parser:
             value = {"code": attrs.get("countryCode", "")}
             for fixed_line in territory.iter(self.line_tag):
                 for national_number_pattern in fixed_line.iter(self.pattern_tag):
-                    value["pattern"] = RegexCompiler(national_number_pattern.text).compile()
+                    value["pattern"] = re.sub(r"\s", "", national_number_pattern.text)
             for mobile_tag in territory.iter(self.mobile_tag):
                 for national_number_pattern in mobile_tag.iter(self.pattern_tag):
-                    value["mobile"] = RegexCompiler(national_number_pattern.text).compile()
+                    value["mobile"] = re.sub(r"\s", "", national_number_pattern.text)
 
             yield code, value
 
