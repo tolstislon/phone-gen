@@ -98,7 +98,7 @@ COUNTRY_NAME: Dict[str, Dict[str, str]] = {
     "FAROEISLANDS": {"name": "Faroe Islands", "code": "FO"},
     "FIJI": {"name": "Fiji", "code": "FJ"},
     "FINLAND": {"name": "Finland", "code": "FI"},
-    "FRANCE ": {"name": "France", "code": "FR"},
+    "FRANCE": {"name": "France", "code": "FR"},
     "FRENCHGUIANA": {"name": "French Guiana", "code": "GF"},
     "FRENCHPOLYNESIA": {"name": "French Polynesia", "code": "PF"},
     "FRENCHSOUTHERNTERRITORIES": {"name": "French Southern Territories", "code": "TF"},
