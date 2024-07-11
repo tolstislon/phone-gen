@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from phone_gen._generator import RegEx, PatternError
+from phone_gen import RegEx, PatternError
 
 REGEX = (
     r"\d{5}",

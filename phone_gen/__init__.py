@@ -24,15 +24,10 @@ print(number)  # 183782623
 
 Resources:
     * libphonenumber https://github.com/google/libphonenumber
-    * Modified strgen https://github.com/paul-wolf/strgen
 """
 
-from ._phone_number import (
-    clean_alt_patters,
-    load_alt_patters,
-    PhoneNumber,
-    PhoneNumberNotFound,
-)
+from ._generator import RegEx, PatternError
+from ._phone_number import clean_alt_patters, load_alt_patters, PhoneNumber, PhoneNumberNotFound
 
 try:
     from .__version__ import version as __version__
@@ -45,4 +40,6 @@ __all__ = [
     "load_alt_patters",
     "PhoneNumber",
     "PhoneNumberNotFound",
+    "RegEx",
+    "PatternError",
 ]
