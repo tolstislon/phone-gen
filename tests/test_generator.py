@@ -1,10 +1,11 @@
 import re
+from typing import Tuple
 
 import pytest
 
 from phone_gen import RegEx, PatternError
 
-REGEX = (
+REGEX: Tuple[str, ...] = (
     r"\d{5}",
     r"#[a-fA-F0-9]{3,6}",
     r"[a-z0-9._%+-]+[a-z]@[a-z][a-z0-9-]+\.[a-z]{2,4}",
@@ -19,13 +20,13 @@ REGEX = (
 
 
 @pytest.mark.parametrize("regex", REGEX)
-def test_string(regex):
+def test_string(regex: str):
     value = RegEx(regex).generate()
     assert re.match(regex, value)
 
 
 @pytest.mark.parametrize("regex", REGEX)
-def test_pattern(regex):
+def test_pattern(regex: str):
     pattern = re.compile(regex)
     value = RegEx(regex).generate()
     assert pattern.match(value)
