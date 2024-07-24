@@ -16,7 +16,7 @@ requests = "==2.32.3"
 phone-gen = { editable = true, path = "." }
 
 [requires]
-python_version = "3.11"
+python_version = "3.12"
 
 [scripts]
 tests = "pytest ./tests"

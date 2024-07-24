@@ -10,7 +10,7 @@ from phone_gen import PhoneNumber
 @pytest.mark.parametrize(
     "code, ref", [(key, value["ref"]) for key, value in ALT_PATTERNS.items() if "pattern" in value and "ref" in value]
 )
-def test_alt_pattern(code, ref, count):
+def test_alt_pattern(code: str, ref: str, count: int):
     number = PhoneNumber(code).get_number()
     num_obj = phonenumbers.parse(number, code)
     assert phonenumbers.is_valid_number_for_region(num_obj, ref)
@@ -22,7 +22,7 @@ def test_alt_pattern(code, ref, count):
     "code, ref",
     [(key, value["ref"]) for key, value in ALT_PATTERNS.items() if "pattern" not in value and "ref" in value],
 )
-def test_ref(code, ref, count):
+def test_ref(code: str, ref: str, count: int):
     number = PhoneNumber(code).get_number()
     num_obj = phonenumbers.parse(number, code)
     assert phonenumbers.is_valid_number_for_region(num_obj, ref)
