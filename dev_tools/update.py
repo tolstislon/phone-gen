@@ -7,7 +7,7 @@ from typing import Final
 
 import requests
 
-from dev_tools.patterns_generator import get_latest, parsing_version, main
+from patterns_generator import get_latest, parsing_version, main
 
 ROOT_DIR: Final[Path] = Path(__file__).absolute().parent.parent
 logging.basicConfig(format="[%(asctime)s] %(levelname)s:%(message)s", level=logging.INFO)
