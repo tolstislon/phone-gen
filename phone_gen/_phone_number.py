@@ -1,12 +1,14 @@
 import random
 from dataclasses import dataclass, field
 from re import sub
-from .patterns import PATTERNS
 from typing import Dict, Optional
+
+from string_gen import StringGen
+
 from .alt_patterns import ALT_PATTERNS
 from .country_name import COUNTRY_NAME
 from .iso3 import ISO3
-from ._generator import RegEx
+from .patterns import PATTERNS
 
 ALTERNATIVE_FILE: dict = {}
 
@@ -60,11 +62,11 @@ class PhoneNumber:
         return self.get_national(full) if random.randint(0, 1) else self.get_mobile(full)
 
     def get_mobile(self, full: bool = True) -> str:
-        number = RegEx(self._country.get("mobile", self._country["pattern"])).generate()
+        number = StringGen(self._country.get("mobile", self._country["pattern"])).render()
         return f"+{self._country['code']}{number}" if full else number
 
     def get_national(self, full: bool = True) -> str:
-        number = RegEx(self._country["pattern"]).generate()
+        number = StringGen(self._country["pattern"]).render()
         # Could not find problem
         if number.startswith("49") and self._country["code"] == "49":  # pragma: no cover
             return self.get_national(full)
