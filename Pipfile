@@ -4,11 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "==24.4.2"
-flake8 = "==7.1.0"
+black = "==24.8.0"
+flake8 = "==7.1.1"
 pep8-naming = "==0.14.1"
-phonenumbers = "==8.13.40"
-pytest = "==8.3.1"
+phonenumbers = "==8.13.43"
+pytest = "==8.3.2"
 pytest-cov = "==5.0.0"
 requests = "==2.32.3"
 
@@ -21,3 +21,4 @@ python_version = "3.12"
 [scripts]
 tests = "pytest ./tests"
 black = "black --line-length=120 phone_gen"
+flake = "flake8 ./tests"

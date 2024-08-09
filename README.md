@@ -149,8 +149,8 @@ You might want to:
 
 #### Getting started
 
-* python 3.11
-* pipenv 2022.12.19+
+* python 3.12
+* pipenv 2023.11.15+
 
 1. Clone the repository
     ```bash
@@ -162,12 +162,15 @@ You might want to:
     pipenv install --dev
     pipenv shell
    ```
-3. Run the linters
+3. Run black
     ```bash
-    black phone_gen/ 
-    flake8 phone_gen/
+    pipenv run black
    ```
-4. Run the tests
+4. Run flake8
     ```bash
-    pytest tests/
+    pipenv run flake
+   ```
+5. Run the tests
+    ```bash
+    pipenv run tests
    ```
