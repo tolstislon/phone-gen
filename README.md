@@ -56,7 +56,7 @@ print(number)  # +442408055065
 
 ##### pytest fixture
 
-```python
+`python
 import pytest
 from phone_gen import PhoneNumber
 
@@ -68,16 +68,13 @@ def phone_number():
 
     yield wrap
 
-
-def test_one(phone_number):
+f test_one(phone_number):
     number = phone_number("DE")
     ...
-```
-
+``
 Using the CLI
 ----
-
-```bash
+`bash
 usage: phone-gen [-h] [-v] [-n] country [country ...]
 
 International phone number generation
@@ -91,7 +88,7 @@ optional arguments:
   -f, --not-full  Get a phone number without a country code
   -m, --mobile    Get mobile phone number
   -n, --national  Get national phone number
-```
+`
 
 Example
 
