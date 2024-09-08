@@ -127,7 +127,7 @@ $ phone-gen -n DE
 Resources
 ----
 
-* [Google's libphonenumber](https://github.com/google/libphonenumber)
+* [Google's libphonenumber][Google's libphonenumber](https://github.com/google/libphonenumber)
 
 Changelog
 ----
@@ -153,9 +153,9 @@ You might want to:
 * pipenv 2023.11.15+
 
 1. Clone the repository
-    ```bash
-    git clone https://github.com/tolstislon/phone-gen.git
-    cd phone-gen
+git clone https://github.com/tolstislon/phone-gen.git
+ phone-gen
+    ```bash 
    ```
 2. Install dev dependencies
     ```bash
@@ -174,3 +174,5 @@ You might want to:
     ```bash
     pipenv run tests
    ```
+git clone https://github.com/tolstislon/phone-gen.git
+cd phone-gen
