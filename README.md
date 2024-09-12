@@ -23,36 +23,59 @@ pip install phone-gen
 
 Example
 ----
+import random
 
-```python
-from phone_gen import PhoneNumber
+class PhoneNumber:
+    def _init_(self, country):
+        self.country = country
+        self.country_code = self.get_country_code(country)
+        self.number_length = self.get_number_length(country)
 
-phone_number = PhoneNumber("GB")  # ISO 3166-2
-# or
-phone_number = PhoneNumber("GBR")  # ISO 3166-3
-# or
-phone_number = PhoneNumber("Great Britain")  # Country name
+    def get_country_code(self, country):
+        # A dictionary mapping country names/ISO codes to their respective country codes
+        country_codes = {
+            "US": "1",
+            "USA": "!",
+            "UNiTED STATE": "1",
+            # Add more countries as needed
+        }
+        return country_codes.get(country, None)
 
-# Get a phone number
-number = phone_number.get_number()
-print(number)  # +442908124840
+    def get_number_length(self, country):
+        # A dictionary mapping country names/ISO codes to their respective phone number lengths
+        number_lengths = {
+            "US": 10,
+            "USA": 10,
+            "united state": 10,
+            # Add more countries as needed
+        }
+        return number_lengths.get(country, None)
 
-# Get a country code
-country_code = phone_number.get_code()
-print(country_code)  # 44
+    def get_number(self, full=True):
+        if full:
+            return f"+{self.country_code}{self.generate_random_number()}"
+        return self.generate_random_number()
 
-# Get a phone number without a country code
-number = phone_number.get_number(full=False)
-print(number)  # 183782623
+    def get_mobile(self):
+        return f"+{self.country_code}{self.generate_random_mobile_number()}"
 
-# Get a mobile phone number
-number = phone_number.get_mobile()
-print(number)  # +447911899521
+    def get_national(self):
+        return f"+{self.country_code}{self.generate_random_number()}"
 
-# Get a national phone number
-number = phone_number.get_national()
-print(number)  # +442408055065
-```
+    def generate_random_number(self):
+        return ''.join(random.choices('0123456789', k=self.number_length))
+
+    def generate_random_mobile_number(self):
+        # Assuming mobile numbers start with '7' in the US
+        return '7' + ''.join(random.choices('0123456789', k=self.number_length - 1))
+
+# Example usage
+if _name_ == "_main_":
+    phone_number = PhoneNumber("US")
+    print(phone_number.get_number())  # e.g., +14234945549
+    print(phone_number.get_code())     # 1
+    print(phone_number.get_number(full=False))  # e.g., 183782623
+    print(phone_number.get_mobile())   # e.g., +15597046914
 
 ##### pytest fixture
 
@@ -60,37 +83,70 @@ print(number)  # +442408055065
 import pytest
 from phone_gen import PhoneNumber
 
-
 @pytest.fixture
 def phone_number():
-    def wrap(code):
-        return PhoneNumber(code).get_number()
-
-    yield wrap
-
+    """Fixture to generate phone numbers based on country code."""
+    return lambda code: PhoneNumber(code).get_number()
 
 def test_one(phone_number):
     number = phone_number("DE")
+    # Add assertions or further testing logic here
     ...
 ```
 
-Using the CLI
-----
+import argparse
 
-```bash
-usage: phone-gen [-h] [-v] [-n] country [country ...]
+def main():
+    parser = argparse.ArgumentParser(
+        description="International phone number generation"
+    )
 
-International phone number generation
+    # Positional argument for country
+    parser.add_argument(
+        'country',
+        nargs='+',  # Allows multiple country codes/names
+        help='Country code or country name (e.g., "US", "USA", "United state")'
+    )
 
-positional arguments:
-  country         Country code or country name. Example: "GB" or "GBR" or "Great Britain"
+    # Optional arguments
+    parser.add_argument(
+        '-v', '--version',
+        action='version',
+        version='%(prog)s 1.0',  # Replace with actual version
+        help="Show program's version number and exit"
+    )
+    parser.add_argument(
+        '-f', '--not-full',
+        action='store_true',
+        help='Get a phone number without a country code'
+    )
+    parser.add_argument(
+        '-m', '--mobile',
+        action='store_true',
+        help='Get mobile phone number'
+    )
+    parser.add_argument(
+        '-n', '--national',
+        action='store_true',
+        help='Get national phone number'
+    )
 
-optional arguments:
-  -h, --help      show this help message and exit
-  -v, --version   show program's version number and exit
-  -f, --not-full  Get a phone number without a country code
-  -m, --mobile    Get mobile phone number
-  -n, --national  Get national phone number
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Here you would implement the logic to generate the phone numbers
+    # based on the parsed arguments.
+    # For example:
+    print(f"Generating phone numbers for: {args.country}")
+    if args.not_full:
+        print("Generating phone numbers without country code.")
+    if args.mobile:
+        print("Generating mobile phone numbers.")
+    if args.national:
+        print("Generating national phone numbers.")
+
+if _name_ == "_main_":
+    main()
 ```
 
 Example
