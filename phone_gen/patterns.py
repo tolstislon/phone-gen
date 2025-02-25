@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Auto-generated file 2025-01-31 07:47:07 UTC (v3)
-Resource: https://github.com/google/libphonenumber v8.13.54
+Auto-generated file 2025-02-25 07:04:32 UTC (v3)
+Resource: https://github.com/google/libphonenumber v8.13.55
 """
 
 
 PATTERNS = {
-    "info": "libphonenumber v8.13.54",
+    "info": "libphonenumber v8.13.55",
     "data": {
         "AC": {"code": "247", "pattern": "6[2-467]\\d{3}", "mobile": "4\\d{4}"},
         "AD": {"code": "376", "pattern": "[78]\\d{5}", "mobile": "690\\d{6}|[356]\\d{5}"},
@@ -237,7 +237,7 @@ PATTERNS = {
         "CZ": {
             "code": "420",
             "pattern": "(?:2\\d|3[1257-9]|4[16-9]|5[13-9])\\d{7}",
-            "mobile": "(?:60[1-8]\\d|7(?:0(?:[2-5]\\d|60)|19[01]|[2379]\\d\\d))\\d{5}",
+            "mobile": "(?:60[1-8]\\d|7(?:0(?:[2-5]\\d|60)|19[0-2]|[2379]\\d\\d))\\d{5}",
         },
         "DE": {
             "code": "49",
@@ -857,7 +857,7 @@ PATTERNS = {
         "SR": {
             "code": "597",
             "pattern": "(?:2[1-3]|3[0-7]|(?:4|68)\\d|5[2-58])\\d{4}",
-            "mobile": "(?:7[124-7]|8[124-9])\\d{5}",
+            "mobile": "(?:7[124-7]|8[1-9])\\d{5}",
         },
         "SS": {"code": "211", "pattern": "1[89]\\d{7}", "mobile": "(?:12|9[1257-9])\\d{7}"},
         "ST": {"code": "239", "pattern": "22\\d{5}", "mobile": "900[5-9]\\d{3}|9(?:0[1-9]|[89]\\d)\\d{4}"},
