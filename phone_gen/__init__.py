@@ -1,5 +1,5 @@
 """
-International phone number generation
+International phone number generation.
 
 This module was created exclusively for generating test data
 
@@ -26,7 +26,7 @@ Resources:
     * libphonenumber https://github.com/google/libphonenumber
 """
 
-from ._phone_number import clean_alt_patters, load_alt_patters, PhoneNumber, PhoneNumberNotFound
+from ._phone_number import PhoneNumber, PhoneNumberNotFound, clean_alt_patters, load_alt_patters
 
 try:
     from .__version__ import version as __version__
@@ -34,9 +34,9 @@ except ImportError:  # pragma: no cover
     __version__ = "unknown"
 
 __all__ = [
+    "PhoneNumber",
+    "PhoneNumberNotFound",
     "__version__",
     "clean_alt_patters",
     "load_alt_patters",
-    "PhoneNumber",
-    "PhoneNumberNotFound",
 ]

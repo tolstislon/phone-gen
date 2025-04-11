@@ -10,7 +10,7 @@ from phone_gen.patterns import PATTERNS
 @pytest.mark.phonenumbers
 @pytest.mark.parametrize("count", range(15))
 @pytest.mark.parametrize("country", PATTERNS["data"].keys())
-def test_patterns(country: str, count: int):
+def test_patterns(country: str, count: int):  # noqa: ARG001
     phone_number = PhoneNumber(country)
     number = phone_number.get_number()
     num_obj = phonenumbers.parse(number, country)
@@ -20,7 +20,7 @@ def test_patterns(country: str, count: int):
 @pytest.mark.phonenumbers
 @pytest.mark.parametrize("count", range(15))
 @pytest.mark.parametrize("country", PATTERNS["data"].keys())
-def test_national(country: str, count: int):
+def test_national(country: str, count: int):  # noqa: ARG001
     phone_number = PhoneNumber(country)
     number = phone_number.get_national()
     num_obj = phonenumbers.parse(number, country)
@@ -30,7 +30,7 @@ def test_national(country: str, count: int):
 @pytest.mark.phonenumbers
 @pytest.mark.parametrize("count", range(15))
 @pytest.mark.parametrize("country", PATTERNS["data"].keys())
-def test_mobile(country: str, count: int):
+def test_mobile(country: str, count: int):  # noqa: ARG001
     phone_number = PhoneNumber(country)
     number = phone_number.get_mobile()
     num_obj = phonenumbers.parse(number, country)

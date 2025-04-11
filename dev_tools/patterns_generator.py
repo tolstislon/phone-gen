@@ -4,11 +4,12 @@ import json
 import re
 import tarfile
 import tempfile
-import xml.etree.ElementTree as ElementTree
+from collections.abc import Generator
 from datetime import datetime
 from pathlib import Path
 from re import match
-from typing import Dict, Generator, Tuple, Final
+from typing import Final
+from xml.etree import ElementTree
 
 import requests
 
@@ -47,7 +48,7 @@ class Parser:
         self.pattern_tag = "nationalNumberPattern"
         self.mobile_tag = "mobile"
 
-    def render(self) -> Generator[Tuple[str, Dict[str, str]], None, None]:
+    def render(self) -> Generator[tuple[str, dict[str, str]], None, None]:
         for territory in self.root.iter("territory"):
             attrs = territory.attrib
             if (code := attrs.get("id", "1")).isdigit():
@@ -64,14 +65,14 @@ class Parser:
 
 
 def get_latest() -> str:
-    response = requests.get("https://github.com/google/libphonenumber/releases/latest")
+    response = requests.get("https://github.com/google/libphonenumber/releases/latest", timeout=60)
     return response.url.split("/")[-1]
 
 
-def parsing_xml(file: Path) -> Dict[str, Dict[str, str]]:
+def parsing_xml(file: Path) -> dict[str, dict[str, str]]:
     with file.open("rb") as _file:
         parser = Parser(_file.read().decode())
-        return {code: value for code, value in parser.render()}
+        return dict(parser.render())
 
 
 def parsing_version(tag: str) -> str:
@@ -84,7 +85,7 @@ def main(patterns_tag: str) -> str:
     if tag := get_latest() if patterns_tag == "latest" else patterns_tag:
         version = parsing_version(tag)
         with tempfile.TemporaryDirectory() as tmpdir:
-            response = requests.get(SOURCE_TAG.format(tag=tag), stream=True)
+            response = requests.get(SOURCE_TAG.format(tag=tag), stream=True, timeout=60)
             if not response.ok:
                 raise ValueError(f"Invalid tag: {tag}")
             with tarfile.open(fileobj=io.BytesIO(response.content)) as tar_file:
@@ -103,6 +104,7 @@ def main(patterns_tag: str) -> str:
                 )
                 _file.write(temp.encode())
         return version
+    return None
 
 
 if __name__ == "__main__":

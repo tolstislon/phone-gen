@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Sources:
-* https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-"""
-from typing import Dict
+"""Sources: https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes."""
 
-COUNTRY_NAME: Dict[str, Dict[str, str]] = {
+COUNTRY_NAME: dict[str, dict[str, str]] = {
     "AFGHANISTAN": {"name": "Afghanistan", "code": "AF"},
     "ALANDISLANDS": {"name": "Åland Islands", "code": "AX"},
     "ALBANIA": {"name": "Albania", "code": "AL"},

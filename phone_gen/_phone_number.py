@@ -1,7 +1,6 @@
 import random
 from dataclasses import dataclass, field
 from re import sub
-from typing import Dict, Optional
 
 from string_gen import StringGen
 
@@ -23,24 +22,24 @@ def load_alt_patters(patters: dict) -> None:
 
 
 class PhoneNumberNotFound(Exception):
-    """Not found country"""
+    """Not found country."""
 
 
 @dataclass
 class PhoneNumber:
     code: str
-    _country: Optional[Dict[str, str]] = field(default=None, init=False, repr=False)
+    _country: dict[str, str] | None = field(default=None, init=False, repr=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<{type(self).__name__}({self.info()})>"
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.code = sub(r"\W", "", self.code).upper()
         if (country := self._find(self.code)) is None:
             raise PhoneNumberNotFound(f'Not found country "{self.code}"')
         self._country = country
 
-    def _find(self, value: str) -> Optional[Dict[str, str]]:
+    def _find(self, value: str) -> dict[str, str] | None:
         if country := ALTERNATIVE_FILE.get(value) or PATTERNS["data"].get(value):
             return country
         if alt_country := ALT_PATTERNS.get(value):

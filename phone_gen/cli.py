@@ -1,3 +1,5 @@
+"""CLI."""
+
 import argparse
 
 from . import __version__
@@ -44,6 +46,7 @@ parser.add_argument(
 
 
 def main() -> None:
+    """CLI start function."""
     args = parser.parse_args()
     country = " ".join(args.country)
     try:
@@ -54,6 +57,6 @@ def main() -> None:
             number = phone_number.get_mobile(args.full)
         else:
             number = phone_number.get_number(args.full)
-        print(number)
+        print(number)  # noqa: T201
     except PhoneNumberNotFound as error:
-        print(f"Error: {error.args[0]}")
+        print(f"Error: {error.args[0]}")  # noqa: T201

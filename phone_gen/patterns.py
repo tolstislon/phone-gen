@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 """
-Auto-generated file 2025-04-11 12:08:00 UTC (v3)
-Resource: https://github.com/google/libphonenumber v9.0.3
+Auto-generated file 2025-04-11 12:08:00 UTC (v3).
+Resource: https://github.com/google/libphonenumber v9.0.3.
 """
-
 
 PATTERNS = {
     "info": "libphonenumber v9.0.3",
