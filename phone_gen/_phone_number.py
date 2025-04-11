@@ -1,6 +1,7 @@
 import random
 from dataclasses import dataclass, field
 from re import sub
+from typing import Dict, Optional
 
 from string_gen import StringGen
 
@@ -28,7 +29,7 @@ class PhoneNumberNotFound(Exception):
 @dataclass
 class PhoneNumber:
     code: str
-    _country: dict[str, str] | None = field(default=None, init=False, repr=False)
+    _country: Optional[Dict[str, str]] = field(default=None, init=False, repr=False)
 
     def __str__(self) -> str:
         return f"<{type(self).__name__}({self.info()})>"
@@ -39,7 +40,7 @@ class PhoneNumber:
             raise PhoneNumberNotFound(f'Not found country "{self.code}"')
         self._country = country
 
-    def _find(self, value: str) -> dict[str, str] | None:
+    def _find(self, value: str) -> Optional[Dict[str, str]]:
         if country := ALTERNATIVE_FILE.get(value) or PATTERNS["data"].get(value):
             return country
         if alt_country := ALT_PATTERNS.get(value):

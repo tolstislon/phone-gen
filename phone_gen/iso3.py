@@ -5,7 +5,9 @@ Sources:
 * https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Officially_assigned_code_elements
 """
 
-ISO3: dict[str, dict[str, str]] = {
+from typing import Dict
+
+ISO3: Dict[str, Dict[str, str]] = {
     "ABW": {"code": "AW"},
     "AFG": {"code": "AF"},
     "AGO": {"code": "AO"},
