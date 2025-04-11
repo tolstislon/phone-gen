@@ -1,5 +1,5 @@
 import random
-from collections.abc import Iterator
+from typing import Iterator
 
 import phonenumbers
 import pytest

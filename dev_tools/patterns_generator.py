@@ -4,11 +4,10 @@ import json
 import re
 import tarfile
 import tempfile
-from collections.abc import Generator
 from datetime import datetime
 from pathlib import Path
 from re import match
-from typing import Final
+from typing import Final, Generator
 from xml.etree import ElementTree
 
 import requests
