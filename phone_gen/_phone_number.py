@@ -23,7 +23,7 @@ def load_alt_patters(patters: dict) -> None:
 
 
 class PhoneNumberNotFound(Exception):
-    """Not found country"""
+    """Not found country."""
 
 
 @dataclass
@@ -31,10 +31,10 @@ class PhoneNumber:
     code: str
     _country: Optional[Dict[str, str]] = field(default=None, init=False, repr=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<{type(self).__name__}({self.info()})>"
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.code = sub(r"\W", "", self.code).upper()
         if (country := self._find(self.code)) is None:
             raise PhoneNumberNotFound(f'Not found country "{self.code}"')

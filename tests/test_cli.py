@@ -36,7 +36,7 @@ def test_invalid_country(capfd: pytest.CaptureFixture):
 
 @pytest.mark.phonenumbers
 @pytest.mark.parametrize(
-    "country_name, code", (("Germany", "DE"), ("Panama", "PA"), ("Turkey", "TR"), ("France", "FR"))
+    ("country_name", "code"), (("Germany", "DE"), ("Panama", "PA"), ("Turkey", "TR"), ("France", "FR"))
 )
 @pytest.mark.parametrize("arg", ("", "-n ", "-m "))
 def test_find_country_name(capfd: pytest.CaptureFixture, country_name: str, code: str, arg: str):
@@ -47,7 +47,7 @@ def test_find_country_name(capfd: pytest.CaptureFixture, country_name: str, code
 
 
 @pytest.mark.phonenumbers
-@pytest.mark.parametrize("iso, code", (("VNM", "VN"), ("SLE", "SL"), ("MCO", "MC")))
+@pytest.mark.parametrize(("iso", "code"), (("VNM", "VN"), ("SLE", "SL"), ("MCO", "MC")))
 @pytest.mark.parametrize("arg", ("", "-n ", "-m "))
 def test_find_iso3(capfd: pytest.CaptureFixture, iso: str, code: str, arg: str):
     os.system(f"phone-gen {arg}{iso}")

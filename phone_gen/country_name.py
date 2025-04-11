@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Sources:
-* https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
-"""
+"""Sources: https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes."""
+
 from typing import Dict
 
 COUNTRY_NAME: Dict[str, Dict[str, str]] = {

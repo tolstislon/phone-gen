@@ -1,19 +1,22 @@
+"""Update CLI."""
+
 import argparse
 import logging
 import re
+import sys
 from pathlib import Path
 from subprocess import run as cmd
 from typing import Final
 
 import requests
-
-from patterns_generator import get_latest, parsing_version, main
+from patterns_generator import get_latest, main, parsing_version
 
 ROOT_DIR: Final[Path] = Path(__file__).absolute().parent.parent
 logging.basicConfig(format="[%(asctime)s] %(levelname)s:%(message)s", level=logging.INFO)
 
 
 def arg_parser() -> argparse.Namespace:
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         prog="update",
         add_help=True,
@@ -34,6 +37,7 @@ def arg_parser() -> argparse.Namespace:
 
 
 def is_need_update(version: str) -> bool:
+    """Is need update libphonenumber."""
     if (pattern_file := ROOT_DIR / "phone_gen" / "patterns.py").exists():
         with pattern_file.open("r") as _file:
             file = _file.read()
@@ -43,13 +47,15 @@ def is_need_update(version: str) -> bool:
 
 
 def check_phonenumbers_libs(version: str) -> bool:
-    response = requests.get("https://pypi.org/pypi/phonenumbers/json")
+    """Check pypi phonenumbers version."""
+    response = requests.get("https://pypi.org/pypi/phonenumbers/json", timeout=60)
     response.raise_for_status()
     releases = response.json()["releases"]
-    return version in releases.keys()
+    return version in releases
 
 
 def update_pipfile(version: str) -> None:
+    """Update Pipfile file."""
     logging.info("Update Pipfile")
     if (pipfile_path := ROOT_DIR / "Pipfile").exists():
         with pipfile_path.open("r") as _file:
@@ -59,10 +65,11 @@ def update_pipfile(version: str) -> None:
             _file.write(pipfile)
         return
     logging.critical("Not found Pipfile")
-    exit(-1)
+    sys.exit(-1)
 
 
 def update_workflow(version: str) -> None:
+    """Update GitHub workflow file."""
     logging.debug("Update workflow")
     if (workflow_path := ROOT_DIR / ".github" / "workflows" / "python-package.yml").exists():
         with workflow_path.open("r") as _file:
@@ -72,37 +79,38 @@ def update_workflow(version: str) -> None:
             _file.write(workflow)
         return
     logging.critical("Not found workflow file")
-    exit(-1)
+    sys.exit(-1)
 
 
 def run(args: argparse.Namespace) -> None:
+    """Run update script."""
     version = parsing_version(get_latest())
     if not args.update and not is_need_update(version=version):
         logging.info("No update required")
-        exit(0)
+        sys.exit(0)
     is_phonenumbers = check_phonenumbers_libs(version=version)
     if not is_phonenumbers and not args.ignore_phonenumbers:
         logging.critical(f"No actual version phonenumbers. {version}")
-        exit(-1)
+        sys.exit(-1)
     if is_phonenumbers:
         update_pipfile(version=version)
         update_workflow(version=version)
 
     logging.info("Update requirements")
-    cmd(["pipenv", "update", "-d"], cwd=ROOT_DIR)
+    cmd(["pipenv", "update", "-d"], cwd=ROOT_DIR, check=False)
 
     logging.info("Update patterns")
     main(patterns_tag=f"v{version}")
 
     if not args.no_black:
-        logging.info("Run black")
-        cmd(["black", "--line-length=120", "phone_gen/"], cwd=ROOT_DIR)
+        logging.info("Run format")
+        cmd(["pipenv", "run", "format"], cwd=ROOT_DIR, check=False)
     if not args.no_flake:
-        logging.info("Run flake8")
-        cmd(["flake8", "phone_gen/"], cwd=ROOT_DIR)
+        logging.info("Run check")
+        cmd(["pipenv", "run", "check"], cwd=ROOT_DIR, check=False)
     if not args.no_tests:
         logging.info("Run tests")
-        cmd(["pytest", "tests/"], cwd=ROOT_DIR)
+        cmd(["pytest", "tests/"], cwd=ROOT_DIR, check=False)
     logging.info("Done")
 
 

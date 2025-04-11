@@ -4,13 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "==25.1.0"
-flake8 = "==7.2.0"
-pep8-naming = "==0.14.1"
 phonenumbers = "==9.0.3"
 pytest = "==8.3.5"
-pytest-cov = "==6.0.0"
+pytest-cov = "==6.1.1"
 requests = "==2.32.3"
+ruff = "==0.11.2"
 
 [packages]
 phone-gen = { editable = true, path = "." }
@@ -20,5 +18,5 @@ python_version = "3.12"
 
 [scripts]
 tests = "pytest ./tests"
-black = "black --line-length=120 phone_gen"
-flake = "flake8 ./tests"
+format = "ruff format"
+check = "ruff check --fix"

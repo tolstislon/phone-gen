@@ -5,8 +5,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/phone-gen.svg)](https://pypi.org/project/phone-gen/)
 [![PyPI - Implementation](https://img.shields.io/pypi/implementation/phone-gen)](https://github.com/tolstislon/phone-gen)  
 
-[![Code style: black](https://github.com/tolstislon/phone-gen/workflows/tests/badge.svg)](https://github.com/tolstislon/phone-gen/actions/workflows/python-package.yml)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Tests status](https://github.com/tolstislon/phone-gen/workflows/tests/badge.svg)](https://github.com/tolstislon/phone-gen/actions/workflows/python-package.yml)
 
 International phone number generation
 
@@ -162,13 +161,13 @@ You might want to:
     pipenv install --dev
     pipenv shell
    ```
-3. Run black
+3. Run ruff format
     ```bash
-    pipenv run black
+    pipenv run format
    ```
-4. Run flake8
+4. Run ruff check
     ```bash
-    pipenv run flake
+    pipenv run check
    ```
 5. Run the tests
     ```bash

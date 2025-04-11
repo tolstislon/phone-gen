@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Countries that are not in libphonenumber but are sometimes found
-"""
+"""Countries that are not in libphonenumber but are sometimes found."""
+
 from typing import Dict
 
 ALT_PATTERNS: Dict[str, Dict[str, str]] = {

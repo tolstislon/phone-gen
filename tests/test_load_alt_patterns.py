@@ -1,14 +1,14 @@
 import random
+from typing import Iterator
 
 import phonenumbers
 import pytest
 
-from phone_gen import load_alt_patters, clean_alt_patters, PhoneNumber
+from phone_gen import PhoneNumber, clean_alt_patters, load_alt_patters
 from phone_gen.patterns import PATTERNS
-from typing import Iterator
 
 
-@pytest.fixture(scope='function', params=random.sample(tuple(PATTERNS["data"].keys()), 20))
+@pytest.fixture(params=random.sample(tuple(PATTERNS["data"].keys()), 20))
 def load_fixture(request: pytest.FixtureRequest) -> Iterator[str]:
     load_alt_patters({request.param: {"code": "0", "pattern": "[2]{7}", "mobile": "[1]{9}"}})
     yield request.param
