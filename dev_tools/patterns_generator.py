@@ -16,8 +16,8 @@ root: Final[Path] = Path(__file__).absolute().parent.parent
 
 TEMPLATE: Final[str] = """# -*- coding: utf-8 -*-
 \"""
-Auto-generated file {datetime} UTC (v3)
-Resource: https://github.com/google/libphonenumber {version}
+Auto-generated file {datetime} UTC (v3).
+Resource: https://github.com/google/libphonenumber {version}.
 \"""
 
 
