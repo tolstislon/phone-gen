@@ -1,13 +1,12 @@
 import argparse
 import io
 import json
-import re
 import tarfile
 import tempfile
 from datetime import datetime
 from pathlib import Path
-from re import match
-from typing import Final, Generator
+from re import match, sub
+from typing import Final, Generator, Optional
 from xml.etree import ElementTree
 
 import requests
@@ -55,10 +54,10 @@ class Parser:
             value = {"code": attrs.get("countryCode", "")}
             for fixed_line in territory.iter(self.line_tag):
                 for national_number_pattern in fixed_line.iter(self.pattern_tag):
-                    value["pattern"] = re.sub(r"\s", "", national_number_pattern.text)
+                    value["pattern"] = sub(r"\s", "", national_number_pattern.text)
             for mobile_tag in territory.iter(self.mobile_tag):
                 for national_number_pattern in mobile_tag.iter(self.pattern_tag):
-                    value["mobile"] = re.sub(r"\s", "", national_number_pattern.text)
+                    value["mobile"] = sub(r"\s", "", national_number_pattern.text)
 
             yield code, value
 
@@ -80,7 +79,7 @@ def parsing_version(tag: str) -> str:
     raise ValueError(f"Invalid tag: {version}")
 
 
-def main(patterns_tag: str) -> str:
+def main(patterns_tag: str) -> Optional[str]:
     if tag := get_latest() if patterns_tag == "latest" else patterns_tag:
         version = parsing_version(tag)
         with tempfile.TemporaryDirectory() as tmpdir:
