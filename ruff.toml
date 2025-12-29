@@ -33,6 +33,26 @@ select = [
     "FLY", # flynt
     "PL", # Pylint
     "RSE", # flake8-raise
+    "ERA", # eradicate (Закомменченый код)
+    "BLE", # flake8-blind-except
+    "FBT", # flake8-boolean-trap
+    "DTZ", # flake8-datetimez
+    "INT", # flake8-gettext
+    "TC", # flake8-type-checking
+    "W", # pycodestyle (warning)
+    "PLR", # Refactor
+    "PLW", # Warning
+    "TRY", # Warning
+    "ASYNC", # flake8-async
+    "T10", # flake8-debugger
+    "EM", # flake8-errmsg
+    "EXE", # flake8-executable
+    "LOG", # flake8-logging
+    "G", # flake8-logging-format
+    "SLF", # flake8-self
+    "SLOT", # flake8-slots
+    "TID", # flake8-tidy-imports
+    "PLE", # Pylint Error
 ]
 ignore = [
     "S311", # Standard pseudo-random generators are not suitable for cryptographic purposesStandard pseudo-random generators are not suitable for cryptographic purposes
@@ -41,11 +61,15 @@ ignore = [
     "COM812", # conflicts rules
     "ISC001", # conflicts rules
     "N818", # Exception name `{exception}` should be named with an Error suffix
+    "LOG015", # call on root logger
+    "EM102", # Exception must not use an f-string literal, assign to variable first
+    "TRY003", # Avoid specifying long messages outside the exception class
 ]
 
 [lint.per-file-ignores]
 "test_*.py" = ["S101", "D103", "ANN201", "D100", "S605", "S607"]
 "patterns.py" = ["E501", "D205"]
+"_phone_number.py" = ["FBT001", "FBT002"]
 "dev_tools/*.py" = ["D103", "S314", "D102", "D107", "D101", "ICN001", "D100", "S607", "S603", "ANN204"]
 
 [lint.flake8-pytest-style]

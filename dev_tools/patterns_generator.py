@@ -3,7 +3,7 @@ import io
 import json
 import tarfile
 import tempfile
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from re import match, sub
 from typing import Final, Generator, Optional
@@ -96,7 +96,7 @@ def main(patterns_tag: str) -> Optional[str]:
             patterns_path = root / "phone_gen" / "patterns.py"
             with patterns_path.open("wb") as _file:
                 temp = TEMPLATE.format(
-                    datetime=datetime.utcnow().strftime(DATETIME_FORMAT),
+                    datetime=datetime.now(tz=UTC).strftime(DATETIME_FORMAT),
                     patterns=json.dumps({"info": f"libphonenumber {tag}", "data": data}, indent=4),
                     version=tag,
                 )
