@@ -90,7 +90,7 @@ def run(args: argparse.Namespace) -> None:
         sys.exit(0)
     is_phonenumbers = check_phonenumbers_libs(version=version)
     if not is_phonenumbers and not args.ignore_phonenumbers:
-        logging.critical(f"No actual version phonenumbers. {version}")
+        logging.critical("No actual version phonenumbers. %s", version)
         sys.exit(-1)
     if is_phonenumbers:
         update_pipfile(version=version)
