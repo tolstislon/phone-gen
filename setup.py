@@ -20,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     use_scm_version={"write_to": "phone_gen/__version__.py"},
     setup_requires=["setuptools_scm"],
-    install_requires=["string-gen>=0.1.1"],
+    install_requires=["string-gen>=1.0.0"],
     entry_points={
         "console_scripts": ["phone-gen=phone_gen.cli:main"],
     },
