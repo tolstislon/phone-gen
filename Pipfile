@@ -4,10 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-phonenumbers = "==9.0.31"
+phonenumbers = "==9.0.32"
 pytest = "==9.0.3"
 pytest-cov = "==7.0.0"
-requests = "==2.33.1"
+requests = "==2.34.2"
 ruff = "==0.15.10"
 
 [packages]
