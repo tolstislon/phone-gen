@@ -4,11 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-phonenumbers = "==9.0.32"
-pytest = "==9.0.3"
-pytest-cov = "==7.0.0"
+phonenumbers = "==9.0.34"
+pytest = "==9.1.1"
+pytest-cov = "==7.1.0"
 requests = "==2.34.2"
-ruff = "==0.15.10"
+ruff = "==0.15.20"
 
 [packages]
 phone-gen = { editable = true, path = "." }
