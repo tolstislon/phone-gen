@@ -30,8 +30,8 @@ def arg_parser() -> argparse.Namespace:
         help="Ignore phonenumbers versions",
         action="store_true",
     )
-    parser.add_argument("-b", "--no-black", dest="no_black", help="Do not run black", action="store_true")
-    parser.add_argument("-f", "--no-flake", dest="no_flake", help="Do not run flake8", action="store_true")
+    parser.add_argument("-b", "--no-black", dest="no_black", help="Skip Ruff formatting", action="store_true")
+    parser.add_argument("-f", "--no-flake", dest="no_flake", help="Skip Ruff linting", action="store_true")
     parser.add_argument("-t", "--no-tests", dest="no_tests", help="Do not run tests", action="store_true")
     return parser.parse_args()
 
@@ -54,34 +54,6 @@ def check_phonenumbers_libs(version: str) -> bool:
     return version in releases
 
 
-def update_pipfile(version: str) -> None:
-    """Update Pipfile file."""
-    logging.info("Update Pipfile")
-    if (pipfile_path := ROOT_DIR / "Pipfile").exists():
-        with pipfile_path.open("r") as _file:
-            pipfile = _file.read()
-        pipfile = re.sub(r'phonenumbers\s?=\s?"==[\d.]+"', f'phonenumbers = "=={version}"', pipfile)
-        with pipfile_path.open("w") as _file:
-            _file.write(pipfile)
-        return
-    logging.critical("Not found Pipfile")
-    sys.exit(-1)
-
-
-def update_workflow(version: str) -> None:
-    """Update GitHub workflow file."""
-    logging.debug("Update workflow")
-    if (workflow_path := ROOT_DIR / ".github" / "workflows" / "python-package.yml").exists():
-        with workflow_path.open("r") as _file:
-            workflow = _file.read()
-        workflow = re.sub(r"phonenumbers==[\d.]+", f"phonenumbers=={version}", workflow)
-        with workflow_path.open("w") as _file:
-            _file.write(workflow)
-        return
-    logging.critical("Not found workflow file")
-    sys.exit(-1)
-
-
 def run(args: argparse.Namespace) -> None:
     """Run update script."""
     version = parsing_version(get_latest())
@@ -93,24 +65,21 @@ def run(args: argparse.Namespace) -> None:
         logging.critical("No actual version phonenumbers. %s", version)
         sys.exit(-1)
     if is_phonenumbers:
-        update_pipfile(version=version)
-        update_workflow(version=version)
-
-    logging.info("Update requirements")
-    cmd(["pipenv", "update", "-d"], cwd=ROOT_DIR, check=False)
+        logging.info("Update phonenumbers to %s", version)
+        cmd(["uv", "add", "--dev", f"phonenumbers=={version}"], cwd=ROOT_DIR, check=True)
 
     logging.info("Update patterns")
     main(patterns_tag=f"v{version}")
 
     if not args.no_black:
         logging.info("Run format")
-        cmd(["pipenv", "run", "format"], cwd=ROOT_DIR, check=False)
+        cmd(["uv", "run", "--locked", "ruff", "format"], cwd=ROOT_DIR, check=True)
     if not args.no_flake:
         logging.info("Run check")
-        cmd(["pipenv", "run", "check"], cwd=ROOT_DIR, check=False)
+        cmd(["uv", "run", "--locked", "ruff", "check", "--fix"], cwd=ROOT_DIR, check=True)
     if not args.no_tests:
         logging.info("Run tests")
-        cmd(["pytest", "tests/"], cwd=ROOT_DIR, check=False)
+        cmd(["uv", "run", "--locked", "pytest"], cwd=ROOT_DIR, check=True)
     logging.info("Done")
 
 
