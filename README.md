@@ -14,10 +14,10 @@ International phone number generation
 
 Installation
 ----
-Install using pip with
+Add the library to your Python project with uv.
 
 ```bash
-pip install phone-gen
+uv add phone-gen
 ```
 
 Example
@@ -148,28 +148,14 @@ You might want to:
 
 #### Getting started
 
-* python 3.12
-* pipenv 2023.11.15+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then run the following commands to set up Python 3.12 for development.
 
-1. Clone the repository
-    ```bash
-    git clone https://github.com/tolstislon/phone-gen.git
-    cd phone-gen
-   ```
-2. Install dev dependencies
-    ```bash
-    pipenv install --dev
-    pipenv shell
-   ```
-3. Run ruff format
-    ```bash
-    pipenv run format
-   ```
-4. Run ruff check
-    ```bash
-    pipenv run check
-   ```
-5. Run the tests
-    ```bash
-    pipenv run tests
-   ```
+```bash
+git clone https://github.com/tolstislon/phone-gen.git
+cd phone-gen
+uv python pin 3.12
+uv sync --locked
+uv run ruff format
+uv run ruff check --fix
+uv run pytest
+```

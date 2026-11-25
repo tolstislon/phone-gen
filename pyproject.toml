@@ -1,8 +1,78 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phone_gen"
+dynamic = ["version"]
+description = "International phone number generation"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT License" }
+authors = [{ name = "tolstislon", email = "tolstislon@gmail.com" }]
+keywords = ["testing", "test-data", "phone-number", "phone", "test-data-generator"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Communications :: Telephony",
+]
+dependencies = ["string-gen>=1.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/tolstislon/phone-gen"
+
+[project.scripts]
+phone-gen = "phone_gen.cli:main"
+
+[dependency-groups]
+dev = [
+    "phonenumbers==9.0.39",
+    "pytest<9; python_version < '3.10'",
+    "pytest==9.1.1; python_version >= '3.10'",
+    "pytest-cov<7; python_version < '3.9'",
+    "pytest-cov>=7,<7.1; python_version == '3.9'",
+    "pytest-cov==7.1.0; python_version >= '3.10'",
+    "requests==2.34.2; python_version >= '3.11'",
+    "ruff==0.15.20",
+]
+
+[tool.setuptools]
+packages = ["phone_gen"]
+
+[tool.setuptools_scm]
+version_file = "phone_gen/__version__.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--cov=phone_gen", "-l"]
+markers = ["phonenumbers: Dependency on phonenumbers"]
+
+[tool.coverage.run]
+omit = ["phone_gen/__version__.py"]
+patch = ["subprocess"]
+
+[tool.coverage.report]
+fail_under = 70
+
+[tool.ruff]
 line-length = 120
 target-version = "py38"
 exclude = [".git", ".pytest_cache", ".idea", ".github"]
 
-[lint]
+[tool.ruff.lint]
 select = [
     "A", # flake8-builtins
     "ANN", # flake8-annotations
@@ -66,17 +136,17 @@ ignore = [
     "TRY003", # Avoid specifying long messages outside the exception class
 ]
 
-[lint.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "test_*.py" = ["S101", "D103", "ANN201", "D100", "S605", "S607"]
 "patterns.py" = ["E501", "D205"]
 "_phone_number.py" = ["FBT001", "FBT002"]
 "dev_tools/*.py" = ["D103", "S314", "D102", "D107", "D101", "ICN001", "D100", "S607", "S603", "ANN204"]
 
-[lint.flake8-pytest-style]
+[tool.ruff.lint.flake8-pytest-style]
 parametrize-values-row-type = "tuple"
 parametrize-values-type = "tuple"
 fixture-parentheses = false
 mark-parentheses = false
 
-[format]
+[tool.ruff.format]
 line-ending = "lf"

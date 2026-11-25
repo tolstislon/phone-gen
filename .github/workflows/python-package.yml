@@ -17,22 +17,16 @@ jobs:
         python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14" ]
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - name: Set up uv and Python ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest pytest-cov phonenumbers==9.0.39 ruff==0.15.20
-          python -m pip install -e .
+        run: uv sync --locked
       - name: Format check
-        run: |
-          ruff format --check
+        run: uv run --locked ruff format --check
       - name: Lints
-        run: |
-          ruff check
+        run: uv run --locked ruff check
       - name: Test with pytest
-        run: |
-          pytest tests
+        run: uv run --locked pytest
