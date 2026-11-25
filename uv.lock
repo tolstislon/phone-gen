@@ -782,7 +782,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "string-gen", specifier = ">=1.0.0" }]
+requires-dist = [
+    { name = "string-gen", marker = "python_full_version < '3.10'", specifier = "==1.0.0" },
+    { name = "string-gen", marker = "python_full_version >= '3.10'", specifier = ">=1.0.0" },
+]
 
 [package.metadata.requires-dev]
 dev = [
