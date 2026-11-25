@@ -29,7 +29,10 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Topic :: Communications :: Telephony",
 ]
-dependencies = ["string-gen>=1.0.0"]
+dependencies = [
+    "string-gen==1.0.0; python_version < '3.10'",
+    "string-gen>=1.0.0; python_version >= '3.10'",
+]
 
 [project.urls]
 Homepage = "https://github.com/tolstislon/phone-gen"
